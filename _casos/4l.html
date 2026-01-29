@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso Virtual: Laura Gabir</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Lora:ital,wght@0,400;1,500&display=swap');
+
+        :root {
+            --digital-blue: #3b82f6;
+            --background: #0a0a0c;
+            --card-bg: #16161a;
+        }
+
+        body {
+            background-color: var(--background);
+            color: #f4f4f5;
+            font-family: 'JetBrains Mono', monospace;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .author-tag {
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            color: var(--digital-blue);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .author-tag:hover {
+            color: #fff;
+            text-shadow: 0 0 8px var(--digital-blue);
+        }
+
+        .case-text {
+            font-family: 'Lora', serif;
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: #e4e4e7;
+        }
+
+        .digital-border {
+            border-top: 1px solid rgba(59, 130, 246, 0.3);
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.05) 0%, transparent 100%);
+        }
+
+        .nav-btn {
+            background: #1f1f23;
+            border: 1px solid #2d2d33;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+            background: var(--digital-blue);
+        }
+
+        .norma-btn {
+            background: transparent;
+            border: 1px solid var(--digital-blue);
+            color: var(--digital-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .norma-btn:after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .norma-btn:hover:after { left: 100%; }
+
+        #modal-norma {
+            display: none;
+            background: rgba(5, 5, 7, 0.98);
+            z-index: 100;
+        }
+
+        .progress-indicator {
+            height: 3px;
+            background: #18181b;
+            width: 100%;
+            position: fixed;
+            top: 0;
+        }
+
+        #progress-bar {
+            height: 100%;
+            background: var(--digital-blue);
+            width: 0%;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 15px var(--digital-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-indicator"><div id="progress-bar"></div></div>
+
+    <!-- Header / Créditos -->
+    <header class="p-8 text-center animate__animated animate__fadeInDown">
+        <span class="block text-[10px] text-zinc-500 mb-1 italic">DISEÑO DE CASO</span>
+        <a href="https://ejemplo.com/laura-gabir" target="_blank" class="author-tag font-bold uppercase">
+            Pensado por: Laura Gabir
+        </a>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center p-6">
+        <div id="content-container" class="w-full max-w-lg">
+            <!-- Contenido dinámico via JS -->
+        </div>
+    </main>
+
+    <!-- Navigation -->
+    <footer class="p-6 space-y-4 digital-border animate__animated animate__slideInUp">
+        <div class="grid grid-cols-2 gap-4">
+            <button onclick="prev()" id="btn-prev" class="nav-btn py-4 rounded font-bold text-[10px] tracking-widest opacity-30 pointer-events-none">
+                ANTERIOR
+            </button>
+            <button onclick="next()" id="btn-next" class="nav-btn py-4 rounded font-bold text-[10px] tracking-widest text-blue-400">
+                SIGUIENTE
+            </button>
+        </div>
+        <button onclick="toggleModal(true)" class="norma-btn w-full py-4 rounded font-bold text-[10px] tracking-[0.4em] uppercase">
+            Normativa Aplicable
+        </button>
+    </footer>
+
+    <!-- Modal Normativo -->
+    <div id="modal-norma" class="fixed inset-0 overflow-y-auto p-6 animate__animated">
+        <div class="max-w-xl mx-auto pt-10 pb-20">
+            <h2 class="text-blue-500 font-bold mb-8 text-sm tracking-widest uppercase border-b border-blue-900 pb-2">Referencia Legal Literal</h2>
+            <div class="text-[12px] leading-relaxed text-zinc-400 font-mono whitespace-pre-line">
+ARTICULO 43o. En el caso de las calificaciones numÈricas se utilizar· la siguiente escala:
+
+a. Cero punto cero (0.0) para quien sin causa justificada no se presente a una evaluaciÛn o pr·ctica, sea sorprendido en fraude o coopere con Èl, o no entre- gue los trabajos acadÈmicos exigidos dentro de las fechas establecidas.
+
+b. Uno punto cero (1.0) a dos punto nueve (2.9) para la reprobaciÛn.
+c. Tres punto cero (3.0) a cinco punto cero (5.0) para la aprobaciÛn.
+
+PARAGRAFO 1. Para efectos de la determinaciÛn de las calificaciones numÈricas, se utilizar· un entero y un decimal, acogiÈndose la regla com ̇n de aproximaciÛn, asÌ:
+
+En aquellos casos para los cuales el cÛmputo dÈ como resultado dos o m·s cifras decimales, se aproximar· por defecto cuando el segundo decimal estÈ entre uno y cuatro y se aproximar· por exceso cuando el segundo decimal sea igual o superior a cinco.
+
+PARAGRAFO 2. En los casos de fraude, el profesor deber· presentar un informe al ComitÈ del Programa, con copia a la SecretarÌa AcadÈmica a la que pertenece el estudiante, para que aquÈl, con base en el debido proceso, imponga las sanciones correspondientes. De presentarse reincidencia, el Secretario AcadÈmico informar· al Consejo de la Facultad para que Èste, con base en el debido proceso, aplique las sanciones que para estos casos contemplen las normas de la Universidad. Quien sea sorprendido en fraude o haya cooperado con Èl, pierde el derecho a presentar la evaluaciÛn opcional del examen correspondiente. El ComitÈ de Programa, con base en el debido proceso, impondr· la amonestaciÛn verbal. El reporte del frau- de se registrar· en la hoja de vida del estudiante.
+
+15
+
+ACUERDO 009 / NOVIEMBRE 1997
+
+PARAGRAFO 3. Para efectos de la certificaciÛn final de las calificaciones, una vez se hayan reunido todos los requisitos acadÈmicos para optar por el grado, el pro- medio acumulado se calcular· considerando sÛlo las calificaciones aprobatorias.
+            </div>
+            <button onclick="toggleModal(false)" class="mt-12 w-full py-4 bg-zinc-800 text-white font-bold text-[10px] tracking-widest">CERRAR</button>
+        </div>
+    </div>
+
+    <script>
+        const steps = [
+            {
+                tag: "ESCENARIO",
+                text: "Durante un examen virtual supervisado, el profesor detecta patrones de respuesta idénticos en varios estudiantes..."
+            },
+            {
+                tag: "HALLAZGO",
+                text: "...y posteriormente se prueba que existía un grupo de WhatsApp donde se compartían soluciones en tiempo real..."
+            },
+            {
+                tag: "EL IMPLICADO",
+                text: "...en el cual figuraba Carlos, quien acepta haber estado presente en el chat pero afirma que no usó las respuestas para resolver la prueba..."
+            },
+            {
+                tag: "ACCIÓN",
+                text: "...pese a lo cual el docente le asigna 0.0 y remite el caso al Comité del Programa para iniciar un proceso disciplinario que podría derivar en sanciones severas."
+            },
+            {
+                tag: "PROBLEMA JURÍDICO",
+                text: "¿Qué consecuencias están previstas en el reglamento para este tipo de conductas y qué etapas del debido proceso deben cumplirse antes de imponer una sanción distinta a la calificación del examen?"
+            }
+        ];
+
+        let index = 0;
+
+        function update() {
+            const container = document.getElementById('content-container');
+            const step = steps[index];
+
+            container.classList.remove('animate__fadeInRight', 'animate__fadeInLeft');
+            void container.offsetWidth; // Reset animation
+
+            container.innerHTML = `
+                <div class="p-6 bg-[#16161a] border border-zinc-800 rounded-lg shadow-2xl">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                        <span class="text-[10px] font-bold text-zinc-500 tracking-tighter">${step.tag}</span>
+                    </div>
+                    <p class="case-text italic">"${step.text}"</p>
+                </div>
+            `;
+            container.classList.add('animate__fadeInRight');
+
+            // Nav buttons
+            document.getElementById('btn-prev').classList.toggle('opacity-30', index === 0);
+            document.getElementById('btn-prev').classList.toggle('pointer-events-none', index === 0);
+            document.getElementById('btn-next').innerText = index === steps.length - 1 ? "FINALIZAR" : "SIGUIENTE";
+            
+            // Progress
+            document.getElementById('progress-bar').style.width = ((index + 1) / steps.length * 100) + "%";
+        }
+
+        function next() { if (index < steps.length - 1) { index++; update(); } }
+        function prev() { if (index > 0) { index--; update(); } }
+
+        function toggleModal(show) {
+            const m = document.getElementById('modal-norma');
+            if (show) {
+                m.style.display = 'block';
+                m.classList.add('animate__fadeIn');
+            } else {
+                m.classList.replace('animate__fadeIn', 'animate__fadeOut');
+                setTimeout(() => { m.style.display = 'none'; m.classList.remove('animate__fadeOut'); }, 500);
+            }
+        }
+
+        update();
+    </script>
+</body>
+</html>

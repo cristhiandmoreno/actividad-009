@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso Académico - Derecho</title>
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #e5b95f; /* Dorado cobre persuasivo */
+            --text: #ffffff;
+            --card-bg: #121212;
+            --speed: 0.35s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Créditos del Autor */
+        header {
+            padding: 15px;
+            text-align: center;
+            background: linear-gradient(to bottom, #111, transparent);
+            z-index: 100;
+        }
+
+        header a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 800;
+            border: 1px solid var(--accent);
+            padding: 5px 15px;
+            transition: 0.3s;
+        }
+
+        header a:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        /* Área del Caso */
+        .viewport {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            perspective: 1000px;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            max-width: 500px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-left: 5px solid var(--accent);
+            box-shadow: 20px 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .slide.active {
+            display: block;
+            animation: aggressiveIn var(--speed) cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+        }
+
+        @keyframes aggressiveIn {
+            0% { transform: rotateY(-30deg) translateX(100%) scale(0.8); opacity: 0; }
+            100% { transform: rotateY(0) translateX(0) scale(1); opacity: 1; }
+        }
+
+        @keyframes aggressiveOut {
+            0% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(-120%) skewX(-15deg); opacity: 0; }
+        }
+
+        .content {
+            font-size: 1.3rem;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Botón de Norma */
+        .norma-trigger {
+            padding: 0 25px;
+            margin-bottom: 10px;
+        }
+
+        .btn-norma {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        /* Navegación Inferior */
+        .nav {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            background: var(--accent);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .nav button {
+            background: var(--bg);
+            border: none;
+            color: white;
+            padding: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .nav button:active {
+            background: var(--accent);
+            color: black;
+        }
+
+        .nav button:disabled {
+            color: #333;
+        }
+
+        /* Modal Literal */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98);
+            z-index: 200;
+            display: none;
+            padding: 40px 25px;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .modal-title {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .modal-body {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #bbb;
+        }
+
+        .modal-body strong { color: #fff; }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="https://ejemplo.com/juan-fernando" target="_blank">CASO POR: JUAN FERNANDO</a>
+    </header>
+
+    <div class="viewport">
+        <!-- Slide 1 -->
+        <div class="slide active">
+            <div class="content">
+                A Valentina le registran la <span class="highlight">nota final de 3.0</span> en Teoría del Estado y la calificación queda oficialmente comunicada a Secretaría Académica.
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide">
+            <div class="content">
+                Ella se queda tranquila porque ya aprobó. <span class="highlight">Cinco meses después</span>, el profesor revisa su archivo de Excel para cerrar actas.
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide">
+            <div class="content">
+                Se da cuenta de un error mínimo: en el taller 2 escribió <span class="highlight">3.5 cuando era 3.6</span>. Esa décima cambia la nota definitiva de <span class="highlight">3.0 a 3.1</span>.
+            </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide">
+            <div class="content">
+                El profesor manda un correo rápido a Secretaría pidiendo el ajuste por <span class="highlight">"error de digitación"</span>, recalcando que aún están a tiempo.
+            </div>
+        </div>
+
+        <!-- Slide 5: Pregunta -->
+        <div class="slide">
+            <div class="content">
+                <span class="highlight" style="font-size: 1.8rem;">¿Se podría modificar aquella nota?</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="norma-trigger">
+        <button class="btn-norma" onclick="openModal()">Consultar Norma Relativa</button>
+    </div>
+
+    <nav class="nav">
+        <button id="prev" onclick="move(-1)" disabled>Anterior</button>
+        <button id="next" onclick="move(1)">Siguiente</button>
+    </nav>
+
+    <!-- Modal Normativo -->
+    <div id="modal" class="modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <div class="modal-title">NORMA: ARTICULO 48o</div>
+            <div class="modal-body">
+                <p><strong>ARTICULO 48o.</strong> Las calificaciones ya comunicadas a la Secretaría Académica que hayan sido producidas antes de seis (6) meses de su emisión, podrán ser modificadas si hay razones justificativas, mediante solicitud formal del profesor de la asignatura y aprobación por parte del Comité de la Unidad Académica a la que pertenece el profesor.</p>
+                <br>
+                <p><strong>PARAGRAFO 1.</strong> Las decisiones del Comité de la Unidad Académica sobre modificaciones de calificaciones, serán remitidas por el Jefe respectivo a las Secretarías Académicas, con copia al Director de Programa Académico, al profesor y a la División de Admisiones y Registro Académico.</p>
+                <br>
+                <p><strong>PARAGRAFO 2.</strong> Cuando la modificación de la calificación se produzca como consecuencia de una solicitud de nuevos evaluadores por parte del estudiante, será el Jefe de la Unidad Académica el encargado de realizar el reporte de la calificación a las instancias mencionadas en el Parágrafo anterior.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let current = 0;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+
+        function move(dir) {
+            // Animación de salida
+            slides[current].style.animation = 'aggressiveOut var(--speed) forwards';
+            
+            setTimeout(() => {
+                slides[current].classList.remove('active');
+                current += dir;
+                
+                // Limitar navegación
+                if(current < 0) current = 0;
+                if(current >= slides.length) current = slides.length - 1;
+                
+                // Activar nuevo slide
+                slides[current].classList.add('active');
+                slides[current].style.animation = 'aggressiveIn var(--speed) cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards';
+                
+                // Actualizar estado botones
+                prevBtn.disabled = (current === 0);
+                nextBtn.disabled = (current === slides.length - 1);
+                if(current === slides.length - 1) {
+                    nextBtn.innerHTML = "Fin del caso";
+                } else {
+                    nextBtn.innerHTML = "Siguiente";
+                }
+            }, 200);
+        }
+
+        function openModal() {
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+title: Actividad 009
+baseurl: ""
+url: "https://cristhianmoreno.com"
+
+collections:
+  casos:
+    output: true
+    permalink: /casos/:name

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso Disciplinario: Universidad del Valle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:italic&family=Montserrat:wght@300;700;900&display=swap');
+
+        :root {
+            --primary-red: #7f1d1d;
+            --dark-bg: #0f172a;
+            --accent-gold: #fbbf24;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: #f1f5f9;
+            font-family: 'Montserrat', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-link {
+            color: var(--accent-gold);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 900;
+            font-size: 0.7rem;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .author-link:hover {
+            border-bottom: 1px solid var(--accent-gold);
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+        }
+
+        .case-container {
+            border-left: 2px solid var(--primary-red);
+            background: linear-gradient(to right, rgba(127, 29, 29, 0.1), transparent);
+            padding: 2rem;
+            position: relative;
+        }
+
+        .case-container::before {
+            content: "CONFIDENCIAL";
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            font-size: 0.6rem;
+            color: var(--primary-red);
+            font-weight: 900;
+            letter-spacing: 0.5em;
+        }
+
+        .btn-nav {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s;
+        }
+
+        .btn-nav:active {
+            background: var(--primary-red);
+            transform: translateY(2px);
+        }
+
+        .btn-norma {
+            background: var(--primary-red);
+            box-shadow: 0 4px 15px rgba(127, 29, 29, 0.4);
+        }
+
+        .step-text {
+            font-family: 'Libre+Baskerville', serif;
+            font-size: 1.25rem;
+            line-height: 1.6;
+        }
+
+        #norma-modal {
+            display: none;
+            backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.85);
+        }
+
+        .progress-line {
+            height: 2px;
+            background: #1e293b;
+            width: 100%;
+            position: fixed;
+            top: 0;
+        }
+
+        #progress-fill {
+            height: 100%;
+            background: var(--primary-red);
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            box-shadow: 0 0 10px var(--primary-red);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-line"><div id="progress-fill"></div></div>
+
+    <!-- Header -->
+    <header class="pt-8 px-6 text-center">
+        <a href="https://ejemplo.com/juan-fernando" target="_blank" class="author-link">
+            Caso elaborado por: Juan Fernando
+        </a>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div id="content-box" class="w-full max-w-lg animate__animated">
+            <!-- JS dynamic content -->
+        </div>
+    </main>
+
+    <!-- Navigation -->
+    <footer class="p-6 space-y-4">
+        <div class="grid grid-cols-2 gap-3">
+            <button onclick="changeStep(-1)" id="prevBtn" class="btn-nav py-4 rounded-lg font-bold text-xs uppercase tracking-widest opacity-50">
+                Anterior
+            </button>
+            <button onclick="changeStep(1)" id="nextBtn" class="btn-nav py-4 rounded-lg font-bold text-xs uppercase tracking-widest border-red-900/50">
+                Siguiente
+            </button>
+        </div>
+        <button onclick="toggleNorma(true)" class="w-full btn-norma py-4 rounded-lg font-black text-xs uppercase tracking-[0.3em]">
+            Consultar Normatividad
+        </button>
+    </footer>
+
+    <!-- Norma Modal -->
+    <div id="norma-modal" class="fixed inset-0 z-50 p-6 overflow-y-auto animate__animated">
+        <div class="max-w-xl mx-auto bg-zinc-900 p-8 rounded-xl border border-zinc-800 shadow-2xl">
+            <h2 class="text-red-600 font-black text-xl mb-6 tracking-tighter">ESTATUTO DISCIPLINARIO</h2>
+            <div class="text-sm text-zinc-400 space-y-6 leading-relaxed whitespace-pre-line font-mono">
+ARTICULO 108o. Los estudiantes que incurran en faltas disciplinarias ser·n objeto, de acuerdo con la naturaleza de la falta, de las siguientes acciones disciplinarias, sin perjuicio de la responsabilidad civil o penal que la falta pueda originar:
+
+Por faltas leves:
+a. AmonestaciÛn verbal
+b. AmonestaciÛn escrita
+
+Por faltas graves:
+ï CancelaciÛn de la matrÌcula y no concesiÛn de Èsta por el tÈrmino de uno o varios perÌodos acadÈmicos.
+
+Por faltas gravÌsimas:
+ï ExpulsiÛn de la Universidad.
+
+ARTICULO 112o. La expulsiÛn de la Universidad la impondr· el Consejo Superior a peticiÛn del Consejo AcadÈmico, por algunas de las siguientes faltas gravÌsimas:
+
+a. Cometer actos que atenten contra la integridad fÌsica de los miembros de la comunidad universitaria.
+
+b. Participar o realizar actos de vandalismo, asonada, secuestro o cualquier evento que tipifiquen delitos sancionables penalmente.
+
+c. Realizar acciones o eventos que, de manera directa o por interpuesta persona, obtengan para sÌ o para otro, incremento patrimonial, utilizando para ello fraudulentamente, el nombre o los bienes de la InstituciÛn.
+
+d. Reincidir en faltas consideradas como graves.
+e. Suministrar informaciÛn falsa para efectos de la matrÌcula financiera.
+f. Usar un documento falso, p ̇blico o privado, para obtener beneficios de la Universidad.
+
+37
+
+ACUERDO 009 / NOVIEMBRE 1997
+
+g. Las dem·s faltas que a criterio de la autoridad competente sean calificadas como gravÌsimas.
+            </div>
+            <button onclick="toggleNorma(false)" class="mt-8 w-full py-4 border border-zinc-700 hover:bg-zinc-800 transition rounded font-bold">VOLVER AL CASO</button>
+        </div>
+    </div>
+
+    <script>
+        const caseSteps = [
+            {
+                tag: "HECHOS",
+                content: "David es estudiante de Derecho en la Universidad del Valle. En semana de parciales, el profesor anuncia que el examen será presencial y que está prohibido el uso de celulares."
+            },
+            {
+                tag: "INCIDENTE",
+                content: "El día del parcial, Santiago entrega su examen normal y se queda en el salón mientras otros terminan. Minutos después, el profesor ve que Santiago tiene el celular debajo del pupitre y lo nota nervioso."
+            },
+            {
+                tag: "HALLAZGO",
+                content: "Al pedirle que lo entregue, Santiago dice que solo estaba revisando la hora, pero el docente revisa el teléfono y encuentra que en WhatsApp Santiago tenía abierto un chat con un compañero donde se ven mensajes como: “La respuesta de la 3 es la B” y “mira lo que puse en la 5”"
+            },
+            {
+                tag: "DEFENSA",
+                content: "David se defiende diciendo que esos mensajes llegaron después de haber entregado el examen, y que además él no alcanzó a copiar nada porque “solo lo abrió por curiosidad”."
+            },
+            {
+                tag: "PROCESO",
+                content: "El profesor deja constancia del hecho en un informe y envía el caso a la autoridad disciplinaria."
+            },
+            {
+                tag: "CUESTIONAMIENTO",
+                content: "¿Puede la universidad expulsar definitivamente al estudiante David por estos hechos?"
+            }
+        ];
+
+        let currentStep = 0;
+        const contentBox = document.getElementById('content-box');
+        const progressFill = document.getElementById('progress-fill');
+
+        function updateUI() {
+            const step = caseSteps[currentStep];
+            
+            // Animación agresiva de salida/entrada
+            contentBox.classList.remove('animate__fadeInUp');
+            void contentBox.offsetWidth; // Trigger reflow
+            
+            contentBox.innerHTML = `
+                <div class="case-container">
+                    <span class="text-red-500 font-black text-xs tracking-widest">${step.tag}</span>
+                    <div class="step-text mt-4 text-white italic">
+                        "${step.content}"
+                    </div>
+                </div>
+            `;
+            
+            contentBox.classList.add('animate__fadeInUp');
+
+            // Botones
+            document.getElementById('prevBtn').style.opacity = currentStep === 0 ? "0.2" : "1";
+            document.getElementById('nextBtn').innerText = currentStep === caseSteps.length - 1 ? "FIN" : "SIGUIENTE";
+            
+            // Progreso
+            const percent = ((currentStep + 1) / caseSteps.length) * 100;
+            progressFill.style.width = percent + "%";
+        }
+
+        function changeStep(delta) {
+            if (currentStep + delta >= 0 && currentStep + delta < caseSteps.length) {
+                currentStep += delta;
+                updateUI();
+            }
+        }
+
+        function toggleNorma(show) {
+            const modal = document.getElementById('norma-modal');
+            if (show) {
+                modal.style.display = 'block';
+                modal.classList.add('animate__fadeIn');
+            } else {
+                modal.classList.replace('animate__fadeIn', 'animate__fadeOut');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    modal.classList.remove('animate__fadeOut');
+                }, 500);
+            }
+        }
+
+        // Init
+        updateUI();
+    </script>
+</body>
+</html>

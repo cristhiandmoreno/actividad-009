@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso Casuístico: El Opcional de Julio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #c2a15e; /* Dorado viejo */
+            --danger: #962121;  /* Rojo legal */
+            --bg: #050505;
+        }
+        body {
+            background-color: var(--bg);
+            color: #f2f2f2;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .serif { font-family: 'Libre+Baskerville', serif; }
+        
+        /* Contenedor de escenas */
+        .scene {
+            display: none;
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            padding: 2rem;
+        }
+        .scene.active {
+            display: block;
+        }
+
+        /* Botones y UI */
+        .btn-nav {
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.7rem;
+        }
+        .btn-nav:hover {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+        .norma-btn {
+            background: var(--primary);
+            color: black;
+            font-weight: 800;
+        }
+
+        .modal {
+            display: none;
+            background: rgba(0,0,0,0.98);
+            backdrop-filter: blur(15px);
+        }
+
+        .accent-line {
+            height: 2px;
+            background: var(--primary);
+            width: 0;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Créditos Autor -->
+    <nav class="p-6 flex justify-between items-center z-50">
+        <div>
+            <span class="text-[10px] text-gray-500 block tracking-[0.3em] uppercase">Caso Jurídico</span>
+            <a href="https://ejemplo.com/juan-fernando" target="_blank" class="text-xs font-bold hover:text-[#c2a15e] transition-colors">
+                POR: JUAN FERNANDO
+            </a>
+        </div>
+        <div class="text-[10px] font-mono" id="counter">01 / 05</div>
+    </nav>
+
+    <!-- Escenario Principal -->
+    <main class="flex-grow relative flex items-center justify-center overflow-hidden">
+        
+        <!-- ESCENA 1: EL ACCIDENTE -->
+        <div class="scene active" id="scene-0">
+            <div class="accent-line"></div>
+            <h2 class="serif text-4xl md:text-5xl mb-6">El Incidente</h2>
+            <p class="text-lg leading-relaxed text-gray-300">
+                Julio perdió el parcial 2 de <span class="text-white font-bold italic">Constitucional</span> porque tuvo un accidente y no pudo presentarlo. 
+            </p>
+            <p class="mt-4 text-sm text-gray-500">
+                El programa anuncia que el examen opcional será el <span class="text-white">jueves 24 de octubre a las 10:00 a.m.</span>
+            </p>
+        </div>
+
+        <!-- ESCENA 2: EL CORREO -->
+        <div class="scene" id="scene-1">
+            <h2 class="serif text-4xl md:text-5xl mb-6 text-yellow-600 italic">La Solicitud</h2>
+            <p class="text-lg leading-relaxed">
+                Julio decide presentar el opcional y hace lo siguiente: <br>
+                El <span class="underline">viernes 18 de octubre a las 4:55 p.m.</span> Julio envía un correo al Director del Programa diciendo:
+            </p>
+            <div class="mt-6 p-4 border-l-4 border-gray-700 bg-zinc-900 italic">
+                “Buenas tardes, solicito inscripción al examen opcional del parcial 2.”
+            </div>
+            <p class="mt-4 text-red-500 font-bold uppercase text-xs tracking-widest">El Director no responde ese día.</p>
+        </div>
+
+        <!-- ESCENA 3: LA RESPUESTA -->
+        <div class="scene" id="scene-2">
+            <h2 class="serif text-4xl md:text-5xl mb-6">El Acuse</h2>
+            <p class="text-xl">
+                El <span class="text-white font-bold">lunes 21 a las 9:10 a.m.</span> el Director le responde:
+            </p>
+            <h3 class="text-6xl md:text-8xl font-black mt-4 tracking-tighter">“Recibido.”</h3>
+        </div>
+
+        <!-- ESCENA 4: EL RESULTADO -->
+        <div class="scene" id="scene-3">
+            <h2 class="serif text-4xl md:text-5xl mb-6 text-green-600">El Examen</h2>
+            <p class="text-lg">
+                Julio se presenta el jueves, hace el examen, saca <span class="text-4xl font-bold text-white">4.2</span>.
+            </p>
+            <p class="mt-8 p-4 bg-red-900/20 border border-red-900 text-red-200">
+                Dos días después el programa le informa que el examen opcional <span class="font-bold">no es válido</span> porque no estuvo inscrito.
+            </p>
+        </div>
+
+        <!-- ESCENA 5: PREGUNTA JURÍDICA -->
+        <div class="scene" id="scene-4">
+            <div class="accent-line w-full"></div>
+            <h2 class="serif text-4xl md:text-6xl leading-none">¿El examen opcional fue <span class="italic text-yellow-500">válido?</span></h2>
+            <p class="mt-8 text-gray-500 uppercase tracking-widest text-xs">Analice según la norma vigente.</p>
+        </div>
+
+    </main>
+
+    <!-- Controles Inferiores -->
+    <footer class="p-6 space-y-4">
+        <div class="w-full bg-zinc-800 h-[1px]">
+            <div id="progress" class="bg-yellow-600 h-[1px] w-1/5 transition-all duration-700"></div>
+        </div>
+        
+        <div class="flex justify-between items-center">
+            <div class="flex gap-2">
+                <button onclick="changeScene(-1)" class="btn-nav px-6 py-4">Anterior</button>
+                <button onclick="changeScene(1)" id="nextBtn" class="btn-nav px-6 py-4 font-bold">Siguiente</button>
+            </div>
+            
+            <button onclick="toggleModal(true)" class="norma-btn px-6 py-4 text-[10px] tracking-widest uppercase">
+                Ver Norma
+            </button>
+        </div>
+    </footer>
+
+    <!-- MODAL DE NORMA -->
+    <div id="modal" class="modal fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="bg-zinc-900 border border-zinc-700 w-full max-w-2xl max-h-[80vh] overflow-y-auto p-8 relative">
+            <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-gray-500 hover:text-white">✕</button>
+            
+            <h3 class="serif text-2xl mb-6 text-yellow-600">ARTÍCULO 25o.</h3>
+            <div class="text-sm leading-relaxed text-gray-300 space-y-4">
+                <p>Para presentar una evaluación opcional se requiere estar matriculado en la Universidad, autorizado por ésta y cumplir con los siguientes requisitos y procedimientos:</p>
+                
+                <p><strong class="text-white italic">a. Inscribirse dentro de los cinco (5) días hábiles anteriores a la fecha establecida</strong> por la Unidad Académica para la realización de la evaluación opcional, mediante el diligenciamiento de la solicitud elaborada por la Universidad ante el Director de Programa Académico. Quien no se inscriba dentro de esta fecha no podrá, en ningún caso, presentar la evaluación del opcional.</p>
+                
+                <p><strong class="text-white italic">b.</strong> La Universidad programará dos (2) evaluaciones: la primera en la octava semana y, la segunda, a más tardar diez (10) días hábiles después de finalizar el período académico. En caso de que esta coincida con el período de vacaciones, la evaluación se hará en el período académico inmediatamente siguiente.</p>
+                
+                <p><strong class="text-white italic">c.</strong> Cada unidad académica definirá quién elabora y califica los opcionales.</p>
+                
+                <p><strong class="text-white italic">d.</strong> En todo caso la nota definitiva será la mejor.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentScene = 0;
+        const scenes = document.querySelectorAll('.scene');
+        const total = scenes.length;
+
+        function changeScene(direction) {
+            const next = currentScene + direction;
+            
+            if (next >= 0 && next < total) {
+                // Animación de salida agresiva
+                gsap.to(scenes[currentScene], {
+                    opacity: 0,
+                    x: direction > 0 ? -100 : 100,
+                    scale: 0.8,
+                    duration: 0.4,
+                    onComplete: () => {
+                        scenes[currentScene].classList.remove('active');
+                        currentScene = next;
+                        
+                        // Animación de entrada
+                        const activeScene = scenes[currentScene];
+                        activeScene.classList.add('active');
+                        gsap.fromTo(activeScene, 
+                            { opacity: 0, x: direction > 0 ? 100 : -100, scale: 1.2 },
+                            { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: "expo.out" }
+                        );
+                        
+                        updateUI();
+                    }
+                });
+            }
+        }
+
+        function updateUI() {
+            document.getElementById('counter').innerText = `0${currentScene + 1} / 0${total}`;
+            document.getElementById('progress').style.width = `${((currentScene + 1) / total) * 100}%`;
+            document.getElementById('nextBtn').innerText = currentScene === total - 1 ? "Revisar" : "Siguiente";
+            
+            // Animación de la línea de acento
+            gsap.fromTo(".accent-line", { width: 0 }, { width: "100%", duration: 1, ease: "power4.inOut" });
+        }
+
+        function toggleModal(show) {
+            const modal = document.getElementById('modal');
+            if (show) {
+                modal.style.display = 'flex';
+                gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+                gsap.fromTo(".bg-zinc-900", { y: 50 }, { y: 0, duration: 0.5, ease: "back.out" });
+            } else {
+                gsap.to(modal, { opacity: 0, duration: 0.3, onComplete: () => modal.style.display = 'none' });
+            }
+        }
+
+        // Init
+        gsap.to(scenes[0], { opacity: 1, duration: 1 });
+        updateUI();
+    </script>
+</body>
+</html>

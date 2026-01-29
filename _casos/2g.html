@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso de Estudio Jurídico</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #c62828; /* Rojo Univalle institucional */
+            --bg: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --text: #e0e0e0;
+            --accent: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            overflow: hidden; /* Evita scroll durante animaciones */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header & Autor */
+        header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .author-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        /* Contenedor de Casos */
+        #case-container {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            perspective: 1000px;
+        }
+
+        .step-card {
+            display: none;
+            width: 100%;
+            max-width: 500px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .step-card.active {
+            display: block;
+            animation: slideIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateX(100px) rotateY(-10deg); }
+            100% { opacity: 1; transform: translateX(0) rotateY(0); }
+        }
+
+        .step-content {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Controles */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background: #111;
+            gap: 10px;
+        }
+
+        button {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .btn-nav {
+            background: #333;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-nav:disabled {
+            opacity: 0.2;
+        }
+
+        .btn-norma {
+            background: var(--primary);
+            color: white;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        /* Modal de Normas */
+        #modal-norma {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 100;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .norma-content {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .close-modal {
+            position: sticky;
+            top: 0;
+            float: right;
+            background: var(--primary);
+            color: white;
+            padding: 10px;
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 3px;
+            background: #222;
+            width: 100%;
+        }
+
+        #progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        h2 { margin-bottom: 15px; font-size: 1rem; color: var(--primary); text-transform: uppercase;}
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="https://tu-enlace-aqui.com" class="author-link" target="_blank">
+            Pensado por: Gabriel Enríquez
+        </a>
+    </header>
+
+    <div class="progress-bar">
+        <div id="progress-fill"></div>
+    </div>
+
+    <main id="case-container">
+        <!-- Paso 1 -->
+        <div class="step-card active" data-step="0">
+            <h2>El Hecho</h2>
+            <p class="step-content">Una estudiante transgénero de <span class="highlight">Trabajo Social</span> denuncia que un profesor de planta la llama sistemáticamente por su nombre de nacimiento y pronombres masculinos en clases y correos institucionales.</p>
+        </div>
+
+        <!-- Paso 2 -->
+        <div class="step-card" data-step="1">
+            <h2>Antecedentes</h2>
+            <p class="step-content">Esto ocurre pese a haberle <span class="highlight">informado formalmente</span> su identidad de género actualizada en documentos.</p>
+        </div>
+
+        <!-- Paso 3 -->
+        <div class="step-card" data-step="2">
+            <h2>La Defensa</h2>
+            <p class="step-content">El profesor argumenta <span class="highlight">“libertad de expresión y convicciones personales”</span> y que “Univalle es pública y debe respetar diversidad de pensamiento”.</p>
+        </div>
+
+        <!-- Paso 4 -->
+        <div class="step-card" data-step="3">
+            <h2>Estado de Salud</h2>
+            <p class="step-content">La estudiante sufre <span class="highlight">ansiedad agravada</span>; solicitó apoyo psicológico en Bienestar Universitario hace 45 días y solo le ofrecieron cita virtual en 3 meses por “falta de personal”.</p>
+        </div>
+
+        <!-- Paso 5 -->
+        <div class="step-card" data-step="4">
+            <h2>Conflicto Jurídico</h2>
+            <p class="step-content">Teme represalias académicas si formaliza denuncia disciplinaria. <br><br> 
+            <span class="highlight">¿El comportamiento del profesor constituye discriminación por identidad de género (prohibida en el Art. 7º y en la Constitución)?</span></p>
+        </div>
+
+        <!-- Paso 6 -->
+        <div class="step-card" data-step="5">
+            <h2>Análisis Requerido</h2>
+            <p class="step-content">Analiza si procede <span class="highlight">acción de tutela</span> contra la Universidad del Valle por omisión en proteger derechos fundamentales como (el debido proceso y el reconocimiento de su identidad).</p>
+        </div>
+    </main>
+
+    <div style="padding: 0 20px;">
+        <button class="btn-norma" onclick="toggleNorma(true)">Ver Normativa Aplicable</button>
+    </div>
+
+    <div class="controls">
+        <button class="btn-nav" id="prevBtn" onclick="changeStep(-1)" disabled>Anterior</button>
+        <button class="btn-nav" id="nextBtn" onclick="changeStep(1)">Siguiente</button>
+    </div>
+
+    <!-- Modal Normas -->
+    <div id="modal-norma">
+        <button class="close-modal" onclick="toggleNorma(false)">CERRAR [X]</button>
+        <div class="norma-content">
+            <h2>ARTICULO 7o. Derechos</h2>
+            <p>Son derechos del estudiante:</p><br>
+            <p><strong>a.</strong> Recibir un tratamiento respetuoso por parte de condiscípulos, directivos, profesores, empleados y trabajadores.</p><br>
+            <p><strong>b.</strong> Elegir y ser elegido para los organismos de dirección colegiada de la Universidad...</p><br>
+            <p><strong>c.</strong> Contar con el <strong>debido proceso</strong>, en las acciones administrativas y académicas de la Universidad relacionadas con los aspectos disciplinarios.</p><br>
+            <p><strong>f.</strong> Disponer de condiciones materiales, <strong>psicológicas</strong>, ambientales, de estudio y de tiempo, adecuadas para el cumplimiento de sus procesos de formación.</p><br>
+            <p><strong>g.</strong> Disfrutar de los programas y servicios de <strong>bienestar universitario</strong>... psicofísico, psicoafectivo... Los servicios comprenden: salud, psicología, etc.</p><br>
+            <p><strong>i.</strong> Gozar de libertad de expresión... dentro de los principios de la Constitución, la ley y las normas de la Universidad.</p><br>
+            <p><strong>k. No ser objeto de discriminación de ninguna naturaleza.</strong></p><br>
+            <p><strong>l.</strong> Gozar de la libertad de cátedra.</p><br>
+            <p><strong>PARAGRAFO:</strong> La Universidad creará las condiciones necesarias para garantizar el ejercicio de estos derechos y los reglamentará con base en principios de equidad.</p>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        const steps = document.querySelectorAll('.step-card');
+        const totalSteps = steps.length;
+        const progressFill = document.getElementById('progress-fill');
+
+        function updateUI() {
+            steps.forEach((step, index) => {
+                step.classList.remove('active');
+                if(index === currentStep) step.classList.add('active');
+            });
+
+            document.getElementById('prevBtn').disabled = currentStep === 0;
+            document.getElementById('nextBtn').innerText = currentStep === totalSteps - 1 ? 'Finalizar' : 'Siguiente';
+            
+            const progress = ((currentStep + 1) / totalSteps) * 100;
+            progressFill.style.width = `${progress}%`;
+        }
+
+        function changeStep(delta) {
+            if (currentStep + delta >= 0 && currentStep + delta < totalSteps) {
+                currentStep += delta;
+                updateUI();
+            }
+        }
+
+        function toggleNorma(show) {
+            const modal = document.getElementById('modal-norma');
+            modal.style.display = show ? 'block' : 'none';
+        }
+
+        // Soporte para gestos táctiles (Swipe)
+        let touchstartX = 0;
+        let touchendX = 0;
+        
+        document.addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
+        document.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            if (touchendX < touchstartX - 50) changeStep(1);
+            if (touchendX > touchstartX + 50) changeStep(-1);
+        });
+    </script>
+</body>
+</html>

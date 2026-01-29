@@ -1,0 +1,55 @@
+---
+layout: default
+---
+
+<div id="particles-js" class="fixed inset-0 z-0"></div>
+
+<div class="relative z-10 flex flex-col items-center justify-center h-[70vh] overflow-hidden">
+    <h2 class="text-yellow-500 text-xs font-black uppercase tracking-[0.5em] mb-8">Selecciona un Caso</h2>
+    
+    <!-- Contenedor del Loop Infinito -->
+    <div class="w-full overflow-hidden group">
+        <div class="flex whitespace-nowrap animate-marquee hover:pause">
+            <!-- Generamos 2 juegos de números para que el loop sea perfecto -->
+            {% for i in (1..19) %}
+                <a href="./casos/{{ i }}" class="case-card">
+                    <span class="text-6xl md:text-8xl font-black outline-text">{{ i }}</span>
+                </a>
+            {% endfor %}
+            {% for i in (1..19) %}
+                <a href="./casos/{{ i }}" class="case-card">
+                    <span class="text-6xl md:text-8xl font-black outline-text">{{ i }}</span>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .outline-text {
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+        transition: all 0.4s ease;
+    }
+    .case-card {
+        display: inline-block;
+        padding: 0 40px;
+        text-decoration: none;
+    }
+    .case-card:hover .outline-text {
+        -webkit-text-stroke: 1px #d4af37;
+        color: #d4af37;
+        transform: scale(1.1);
+    }
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+        display: flex;
+        animation: marquee 30s linear infinite;
+    }
+    .hover\:pause:hover {
+        animation-play-state: paused;
+    }
+</style>

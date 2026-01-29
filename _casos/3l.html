@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Caso Laura Gabir - Derecho</title>
+    <style>
+        :root {
+            --primary: #000000;
+            --accent: #2ecc71; /* Verde esmeralda para un toque legal moderno */
+            --white: #ffffff;
+            --gray: #1a1a1a;
+            --transition: 0.3s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--primary);
+            color: var(--white);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Créditos Autor */
+        header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+
+        header a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            transition: var(--transition);
+        }
+
+        header a:hover { opacity: 0.7; }
+
+        /* Contenedor del Caso */
+        main {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+        }
+
+        .slide {
+            position: absolute;
+            width: 85%;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.9) translateY(50px);
+            transition: all var(--transition);
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Animación de salida agresiva */
+        .slide.exit {
+            opacity: 0;
+            transform: scale(1.1) translateY(-100px) rotate(-5deg);
+        }
+
+        .text-box {
+            font-size: 1.4rem;
+            line-height: 1.4;
+            font-weight: 300;
+            border-left: 2px solid var(--accent);
+            padding-left: 20px;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Botón Norma Floating */
+        .norma-action {
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
+        .btn-norma {
+            width: 100%;
+            background: var(--white);
+            color: var(--primary);
+            border: none;
+            padding: 18px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        /* Navegación Inferior */
+        nav {
+            display: flex;
+            background: var(--gray);
+            height: 70px;
+        }
+
+        nav button {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        nav button:first-child { border-right: 1px solid #333; }
+
+        nav button:disabled { opacity: 0.2; }
+
+        nav button:active { background: var(--accent); color: black; }
+
+        /* Modal de Normas */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--primary);
+            z-index: 1000;
+            display: none;
+            padding: 40px 30px;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--accent);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .modal-body {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #ddd;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 2.5rem;
+            color: var(--accent);
+            font-weight: 200;
+        }
+
+        .pregunta-final {
+            font-size: 1.6rem;
+            color: var(--accent);
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="https://ejemplo.com/lauragabir" target="_blank">AUTOR: LAURA GABIR</a>
+    </header>
+
+    <main id="case-container">
+        <!-- Escena 1 -->
+        <div class="slide active">
+            <div class="text-box">
+                En la <span class="highlight">quinta semana</span> del semestre Laura se siente abrumada por la carga académica...
+            </div>
+        </div>
+
+        <!-- Escena 2 -->
+        <div class="slide">
+            <div class="text-box">
+                ...consulta los programas de las materias y concluye que una de ellas <span class="highlight">no se ajusta a su perfil profesional</span>.
+            </div>
+        </div>
+
+        <!-- Escena 3 -->
+        <div class="slide">
+            <div class="text-box">
+                Acude a la oficina académica para <span class="highlight">cancelarla y matricular otra</span> en su reemplazo...
+            </div>
+        </div>
+
+        <!-- Escena 4 -->
+        <div class="slide">
+            <div class="text-box">
+                ...pero allí le indican que la <span class="highlight">adición solo era posible hasta la cuarta semana</span> y que la cancelación tiene un plazo distinto que aún no ha vencido.
+            </div>
+        </div>
+
+        <!-- Escena 5 -->
+        <div class="slide">
+            <div class="text-box">
+                Laura insiste en que <span class="highlight">circunstancias personales</span> le impidieron analizar antes su horario.
+            </div>
+        </div>
+
+        <!-- Escena 6: Pregunta -->
+        <div class="slide">
+            <div class="text-box pregunta-final">
+                ¿Qué actuaciones puede autorizarle la universidad conforme a los plazos reglamentarios y cuáles de sus solicitudes deberían rechazarse?
+            </div>
+        </div>
+    </main>
+
+    <div class="norma-action">
+        <button class="btn-norma" onclick="openNorma()">Revisar Norma Literales</button>
+    </div>
+
+    <nav>
+        <button id="prevBtn" onclick="navigate(-1)" disabled>Anterior</button>
+        <button id="nextBtn" onclick="navigate(1)">Siguiente</button>
+    </nav>
+
+    <!-- Modal Normativo -->
+    <div id="normaModal" class="modal">
+        <span class="close-modal" onclick="closeNorma()">&times;</span>
+        <div class="modal-header">NORMAS</div>
+        <div class="modal-body">
+            <p><strong>ARTICULO 50o.</strong> El Profesor Consejero, o en su defecto el Director de Programa AcadÈmico, orientar·n al estudiante sobre el n ̇mero de asignaturas que decida cursar en el perÌodo acadÈmico.</p>
+            <br>
+            <p><strong>PARAGRAFO:</strong> En casos debidamente justificados el Director del Programa AcadÈmico podr· autorizar matricular, como mÌnimo, tres crÈditos.</p>
+        </div>
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function navigate(direction) {
+            // Animación de salida para el actual
+            const currentSlide = slides[currentIndex];
+            currentSlide.classList.remove('active');
+            currentSlide.classList.add('exit');
+
+            setTimeout(() => {
+                currentSlide.classList.remove('exit');
+                
+                currentIndex += direction;
+                if (currentIndex < 0) currentIndex = 0;
+                if (currentIndex >= slides.length) currentIndex = slides.length - 1;
+
+                // Activar el siguiente
+                slides[currentIndex].classList.add('active');
+                
+                // Actualizar botones
+                prevBtn.disabled = (currentIndex === 0);
+                nextBtn.innerText = (currentIndex === slides.length - 1) ? "Finalizar" : "Siguiente";
+            }, 300);
+        }
+
+        function openNorma() {
+            document.getElementById('normaModal').style.display = 'block';
+        }
+
+        function closeNorma() {
+            document.getElementById('normaModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

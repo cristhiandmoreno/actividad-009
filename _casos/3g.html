@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso Casuístico - Derecho</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a0a0a;
+            --accent: #d4af37; /* Dorado legal para sobriedad */
+            --text: #ffffff;
+            --speed: 0.4s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            overflow: hidden; /* Evita scroll para la experiencia animada */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Marca de Autor */
+        header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+            z-index: 10;
+        }
+
+        header a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Contenedor de Diapositivas */
+        .case-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            max-width: 600px;
+            width: 100%;
+            animation: slideIn var(--speed) cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateX(100%) skewX(-10deg); opacity: 0; }
+            100% { transform: translateX(0) skewX(0deg); opacity: 1; }
+        }
+
+        .slide-content {
+            font-size: 1.5rem;
+            line-height: 1.4;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            font-weight: 300;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Navegación */
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background: #111;
+        }
+
+        button {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 15px 25px;
+            text-transform: uppercase;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            margin: 0 5px;
+        }
+
+        button:active {
+            background: var(--accent);
+            color: black;
+            transform: scale(0.95);
+        }
+
+        button:disabled {
+            border-color: #333;
+            color: #333;
+        }
+
+        .btn-norma {
+            background: var(--accent);
+            color: black;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Modal de Normas */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            z-index: 100;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+
+        .modal-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .modal-header {
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .norma-item {
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #ccc;
+        }
+
+        .close-modal {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: var(--accent);
+            cursor: pointer;
+        }
+
+        /* Estilos específicos para la pregunta final */
+        .pregunta-final {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="https://tupagina.com" target="_blank">Pensado por: Gabriel Enríquez</a>
+    </header>
+
+    <div class="case-container" id="slides-wrapper">
+        <!-- Escena 1 -->
+        <div class="slide active">
+            <div class="slide-content">
+                Durante un partido de <span class="highlight">fútbol interfacultades</span> en las canchas de la universidad...
+            </div>
+        </div>
+
+        <!-- Escena 2 -->
+        <div class="slide">
+            <div class="slide-content">
+                ...un grupo de estudiantes de “x” facultad comenzó a <span class="highlight">insultar y gritar expresiones discriminatorias</span> (basadas en orientación sexual) a un jugador del equipo contrario.
+            </div>
+        </div>
+
+        <!-- Escena 3 -->
+        <div class="slide">
+            <div class="slide-content">
+                La situación escaló y uno de ellos <span class="highlight">lanzó una botella plástica</span> que rompió un vidrio de la cafetería universitaria.
+            </div>
+        </div>
+
+        <!-- Escena 4 -->
+        <div class="slide">
+            <div class="slide-content">
+                El incidente fue grabado por varios celulares y se <span class="highlight">viralizó en grupos de difusión</span> de la comunidad universitaria.
+            </div>
+        </div>
+
+        <!-- Escena 5 -->
+        <div class="slide">
+            <div class="slide-content">
+                La coordinación de <span class="highlight">Bienestar Universitario</span> abrió una investigación disciplinaria contra los involucrados.
+            </div>
+        </div>
+
+        <!-- Escena 6: Pregunta -->
+        <div class="slide">
+            <div class="slide-content pregunta-final">
+                ¿Qué deberes del Artículo 8º incumplieron estos estudiantes? <br><br>
+                ¿Cuáles son las posibles consecuencias disciplinarias que podrían enfrentar?
+            </div>
+        </div>
+    </div>
+
+    <div style="padding: 0 20px;">
+        <button class="btn-norma" onclick="toggleModal()">Ver Normas (Art. 8)</button>
+    </div>
+
+    <div class="nav-controls">
+        <button id="prevBtn" onclick="changeSlide(-1)" disabled>Anterior</button>
+        <button id="nextBtn" onclick="changeSlide(1)">Siguiente</button>
+    </div>
+
+    <!-- Modal Normas -->
+    <div class="modal" id="normaModal">
+        <span class="close-modal" onclick="toggleModal()">&times;</span>
+        <div class="modal-content">
+            <div class="modal-header">ARTICULO 8o. Deberes</div>
+            <div class="norma-item">Son deberes del estudiante:</div>
+            <div class="norma-item"><strong>a.</strong> Cumplir con el Estatuto General, con este Reglamento y con las demás normas de la Universidad.</div>
+            <div class="norma-item"><strong>b.</strong> Contribuir a hacer realidad los principios y fines de la Universidad.</div>
+            <div class="norma-item"><strong>c.</strong> Tener un comportamiento respetuoso con los condiscípulos, directivos, profesores, empleados y trabajadores de la Universidad.</div>
+            <div class="norma-item"><strong>d.</strong> Abstenerse de ejercer actos de discriminación política, racial, religiosa o de otra índole.</div>
+            <div class="norma-item"><strong>e.</strong> Dar correcta utilización a documentos, materiales y bienes que le sean confiados para el desempeño de las actividades académicas y ayudar a su conservación.</div>
+            <div class="norma-item"><strong>f.</strong> Ayudar a la preservación y al aseo de los bienes de uso común de la comunidad universitaria.</div>
+            <div class="norma-item"><strong>g.</strong> Abstenerse de concurrir a la Universidad en estado de embriaguez o bajo el influjo de narcóticos o drogas enervantes.</div>
+            <div class="norma-item"><strong>h.</strong> Contribuir al mejoramiento del desempeño de las actividades académicas.</div>
+            <div class="norma-item"><strong>i.</strong> Estar informado sobre la estructura académica y administrativa de la Universidad, el Reglamento Estudiantil y demás normas relativas a sus procesos de formación académica.</div>
+            <div class="norma-item"><strong>j.</strong> Ejercer las atribuciones inherentes a su calidad de estudiantes, de conformidad con la Constitución, la Ley y las diferentes normas y reglamentos de la Universidad, a través de sus representantes a los diferentes cuerpos colegiados.</div>
+            <div class="norma-item"><strong>k.</strong> Las demás que le señalen la Constitución, la Ley y las normas de la Universidad.</div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function updateButtons() {
+            prevBtn.disabled = currentSlide === 0;
+            if (currentSlide === slides.length - 1) {
+                nextBtn.innerText = "Finalizar";
+                nextBtn.style.background = "#d4af37";
+                nextBtn.style.color = "black";
+            } else {
+                nextBtn.innerText = "Siguiente";
+                nextBtn.style.background = "transparent";
+                nextBtn.style.color = "#d4af37";
+            }
+        }
+
+        function changeSlide(direction) {
+            // Animación de salida agresiva
+            slides[currentSlide].style.animation = `slideOut var(--speed) forwards`;
+            
+            setTimeout(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide += direction;
+
+                if (currentSlide >= slides.length) {
+                    currentSlide = slides.length - 1;
+                }
+                if (currentSlide < 0) {
+                    currentSlide = 0;
+                }
+
+                slides[currentSlide].classList.add('active');
+                slides[currentSlide].style.animation = `slideIn var(--speed) cubic-bezier(0.23, 1, 0.32, 1) forwards`;
+                updateButtons();
+            }, 100);
+        }
+
+        function toggleModal() {
+            const modal = document.getElementById('normaModal');
+            modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // Estilo de salida
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes slideOut {
+                0% { transform: translateX(0); opacity: 1; }
+                100% { transform: translateX(-100%) skewX(10deg); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

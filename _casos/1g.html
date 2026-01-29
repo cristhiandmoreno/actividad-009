@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso Casuístico: Algoritmos II</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+        .serif { font-family: 'Playfair Display', serif; }
+        .case-card {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            display: none;
+        }
+        .case-card.active {
+            display: block;
+        }
+        .progress-bar {
+            transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .gold-text { color: #d4af37; }
+        .btn-action {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid #d4af37;
+            transition: all 0.3s ease;
+        }
+        .btn-action:active { transform: scale(0.9); }
+        .modal {
+            display: none;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="flex flex-col justify-between p-6 md:p-12">
+
+    <!-- Header / Autor -->
+    <header class="z-10">
+        <p class="text-xs uppercase tracking-widest text-gray-500">Caso de Estudio</p>
+        <a href="https://tu-enlace-aqui.com" target="_blank" class="text-sm font-bold gold-text hover:underline">
+            Pensado por: Gabriel Enríquez
+        </a>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="flex-grow flex items-center justify-center relative">
+        
+        <!-- Escena 1 -->
+        <div class="case-card active w-full max-w-lg" id="scene-0">
+            <h2 class="serif text-4xl mb-6 leading-tight">El Incumplimiento</h2>
+            <p class="text-xl leading-relaxed">En el programa de Ingeniería de Sistemas, el profesor titular de <span class="gold-text font-bold">“Algoritmos y Estructuras de Datos II”</span> (una asignatura de 4 créditos) no entregó ni socializó el programa hasta la <span class="bg-red-900 px-2">semana 5</span>.</p>
+        </div>
+
+        <!-- Escena 2 -->
+        <div class="case-card w-full max-w-lg" id="scene-1">
+            <h2 class="serif text-4xl mb-6 leading-tight italic">La Defensa</h2>
+            <p class="text-xl leading-relaxed">Argumenta que “en Univalle la flexibilidad pedagógica es parte del modelo público” y que <span class="italic underline">“el programa es solo una guía orientativa, no un contrato vinculante”</span>.</p>
+        </div>
+
+        <!-- Escena 3 -->
+        <div class="case-card w-full max-w-lg" id="scene-2">
+            <h2 class="serif text-4xl mb-6 leading-tight text-red-600">El Perjuicio</h2>
+            <p class="text-lg mb-4">Varios estudiantes ya perdieron dos evaluaciones parciales no anunciadas.</p>
+            <p class="text-lg italic border-l-2 border-red-600 pl-4">Uno de ellos compró varios libros basándose en el programa preliminar, lo cual generó un perjuicio en su capital que era bastante reducido.</p>
+        </div>
+
+        <!-- Escena 4 -->
+        <div class="case-card w-full max-w-lg" id="scene-3">
+            <h2 class="serif text-4xl mb-6 leading-tight">La Institución</h2>
+            <p class="text-xl leading-relaxed">El Comité de Programa rechaza la queja alegando <span class="font-bold">“autonomía docente”</span>.</p>
+        </div>
+
+        <!-- Escena 5 -->
+        <div class="case-card w-full max-w-lg" id="scene-4">
+            <h2 class="serif text-3xl mb-6 gold-text">El Conflicto Jurídico</h2>
+            <p class="text-lg mb-4">El estudiante argumenta que el retraso viola su derecho a planificar su semestre y le generó perjuicios económicos.</p>
+            <p class="text-2xl font-bold italic mt-6">¿La libertad de cátedra puede pasar por encima del artículo 3 del acuerdo 009?</p>
+        </div>
+
+    </main>
+
+    <!-- Navegación y Acciones -->
+    <footer class="z-10 space-y-6">
+        <div class="w-full bg-gray-800 h-1">
+            <div id="progress" class="progress-bar bg-yellow-600 h-1 w-1/5"></div>
+        </div>
+
+        <div class="flex justify-between items-center">
+            <div class="flex space-x-4">
+                <button onclick="prevScene()" id="prevBtn" class="btn-action px-6 py-3 rounded text-sm opacity-50 cursor-not-allowed uppercase tracking-tighter">Anterior</button>
+                <button onclick="nextScene()" id="nextBtn" class="btn-action px-6 py-3 rounded text-sm font-bold uppercase tracking-tighter">Siguiente</button>
+            </div>
+            
+            <button onclick="toggleNorma()" class="bg-white text-black font-bold px-4 py-3 rounded-full text-xs uppercase tracking-widest hover:bg-yellow-500 transition-colors">
+                Ver Norma
+            </button>
+        </div>
+    </footer>
+
+    <!-- Modal de Norma -->
+    <div id="normaModal" class="modal fixed inset-0 z-50 flex items-center justify-center p-6">
+        <div class="max-w-md w-full bg-zinc-900 border border-zinc-700 p-8 rounded-lg shadow-2xl">
+            <h3 class="serif text-2xl gold-text mb-4">Acuerdo 009 - Art. 3</h3>
+            <div class="text-sm leading-relaxed space-y-4 text-gray-300 overflow-y-auto max-h-[60vh]">
+                <p><strong>ARTÍCULO 3o.</strong> El estudiante recibirá en la primera semana de cada período académico los programas de las asignaturas en las que esté matriculado, en los cuales se expresen objetivos, contenido, intensidad horaria, créditos, requisitos, métodos de trabajo, formas de evaluación, bibliografía recomendada y, si son habilitables o validables.</p>
+                <p class="italic text-xs border-t border-zinc-800 pt-4"><strong>PARÁGRAFO:</strong> La Universidad expedirá anualmente un catálogo donde aparecerán las descripciones revisadas y actualizadas, de todas las asignaturas que ofrecerá durante el año.</p>
+            </div>
+            <button onclick="toggleNorma()" class="mt-8 w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white transition-colors uppercase text-xs tracking-widest font-bold">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        let currentScene = 0;
+        const totalScenes = 5;
+
+        function updateScene() {
+            // Animación de salida y entrada con GSAP
+            gsap.to(".case-card", { opacity: 0, y: -20, duration: 0.3, display: "none" });
+            
+            setTimeout(() => {
+                const activeCard = document.getElementById(`scene-${currentScene}`);
+                activeCard.style.display = "block";
+                gsap.fromTo(`#scene-${currentScene}`, 
+                    { opacity: 0, y: 30, scale: 0.95 }, 
+                    { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "power4.out" }
+                );
+            }, 350);
+
+            // Actualizar Progreso
+            document.getElementById("progress").style.width = `${((currentScene + 1) / totalScenes) * 100}%`;
+
+            // Control de botones
+            document.getElementById("prevBtn").style.opacity = currentScene === 0 ? "0.5" : "1";
+            document.getElementById("prevBtn").style.cursor = currentScene === 0 ? "not-allowed" : "pointer";
+            
+            if(currentScene === totalScenes - 1) {
+                document.getElementById("nextBtn").innerText = "Finalizar";
+            } else {
+                document.getElementById("nextBtn").innerText = "Siguiente";
+            }
+        }
+
+        function nextScene() {
+            if (currentScene < totalScenes - 1) {
+                currentScene++;
+                updateScene();
+            }
+        }
+
+        function prevScene() {
+            if (currentScene > 0) {
+                currentScene--;
+                updateScene();
+            }
+        }
+
+        function toggleNorma() {
+            const modal = document.getElementById("normaModal");
+            if (modal.style.display === "flex") {
+                gsap.to(modal, { opacity: 0, duration: 0.3, onComplete: () => modal.style.display = "none" });
+            } else {
+                modal.style.display = "flex";
+                gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+            }
+        }
+
+        // Inicializar
+        updateScene();
+    </script>
+</body>
+</html>

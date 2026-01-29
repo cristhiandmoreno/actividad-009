@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Caso Académico: Laura Gabir</title>
+    <style>
+        :root {
+            --primary: #e63946; /* Rojo vibrante para impacto */
+            --bg: #050505;
+            --card-bg: #111111;
+            --text: #ffffff;
+            --accent: #a8dadc;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Créditos del Autor */
+        header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #222;
+        }
+
+        .author-link {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 900;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .author-link:hover { filter: drop-shadow(0 0 10px var(--primary)); }
+
+        /* Barra de Progreso */
+        .progress-bar {
+            height: 4px;
+            background: #1a1a1a;
+            width: 100%;
+        }
+
+        #progress {
+            height: 100%;
+            background: var(--primary);
+            width: 20%;
+            transition: width 0.4s cubic-bezier(0.95, 0.05, 0.795, 0.035);
+        }
+
+        /* Contenedor de Diálogo */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            perspective: 1200px;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            max-width: 400px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-left: 6px solid var(--primary);
+            position: relative;
+        }
+
+        .slide.active {
+            display: block;
+            animation: aggressiveSlide 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045) both;
+        }
+
+        @keyframes aggressiveSlide {
+            0% { transform: scale(0.5) rotateX(-90deg) translateY(100%); filter: blur(20px); opacity: 0; }
+            100% { transform: scale(1) rotateX(0deg) translateY(0); filter: blur(0); opacity: 1; }
+        }
+
+        .case-text {
+            font-size: 1.3rem;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        .case-text b { color: var(--primary); font-weight: 800; }
+
+        /* Navegación */
+        .controls {
+            display: flex;
+            padding: 10px;
+            gap: 10px;
+            background: #000;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 20px;
+            border: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+
+        .btn-prev { background: #222; color: #666; }
+        .btn-next { background: var(--primary); color: white; }
+        .btn-norma { 
+            background: white; 
+            color: black; 
+            width: calc(100% - 20px); 
+            margin: 10px auto; 
+            display: block; 
+        }
+
+        /* Modal de Normas */
+        #norma-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98);
+            z-index: 100;
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+
+        .norma-content { max-width: 600px; margin: 0 auto; }
+        .norma-content h3 { color: var(--primary); margin: 20px 0 10px; font-size: 0.9rem; text-transform: uppercase; border-bottom: 1px solid #333;}
+        .norma-content p { font-size: 0.95rem; line-height: 1.6; color: #ccc; margin-bottom: 15px; }
+        .close-btn { background: var(--primary); color: white; border: none; padding: 10px; width: 100%; font-weight: bold; margin-bottom: 20px; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <p style="font-size: 0.6rem; text-transform: uppercase; color: #555;">Caso de Estudio Jurídico</p>
+        <a href="https://ejemplo.com/lauragabir" class="author-link">Laura Gabir</a>
+    </header>
+
+    <div class="progress-bar">
+        <div id="progress"></div>
+    </div>
+
+    <main>
+        <!-- Escena 1 -->
+        <div class="slide active">
+            <p class="case-text">Carlos perdió la asignatura de <b>Estadística con 2.1</b>, la cual figura dentro del listado de materias habilitables del programa.</p>
+        </div>
+
+        <!-- Escena 2 -->
+        <div class="slide">
+            <p class="case-text">Solicita presentar <b>examen de habilitación</b>, mientras que simultáneamente pide validar <b>Derecho Administrativo</b>.</p>
+        </div>
+
+        <!-- Escena 3 -->
+        <div class="slide">
+            <p class="case-text">Alega que trabajó durante <b>dos años en una empresa</b> realizando funciones similares a las del curso, aportando certificados laborales.</p>
+        </div>
+
+        <!-- Escena 4 -->
+        <div class="slide">
+            <p class="case-text">La facultad le informa que ambos trámites están sujetos a <b>requisitos específicos</b> y a decisión institucional.</p>
+        </div>
+
+        <!-- Escena 5 -->
+        <div class="slide">
+            <p class="case-text">¿Qué <b>derechos le asisten</b> frente a la habilitación y la validación según el reglamento académico y hasta dónde puede la universidad aceptar o negar cada solicitud?</p>
+        </div>
+    </main>
+
+    <button class="btn btn-norma" onclick="openNorma()">Consultar Normatividad</button>
+
+    <div class="controls">
+        <button class="btn btn-prev" id="btnPrev" onclick="moveSlide(-1)">Anterior</button>
+        <button class="btn btn-next" id="btnNext" onclick="moveSlide(1)">Siguiente</button>
+    </div>
+
+    <!-- Modal Normativo -->
+    <div id="norma-modal">
+        <button class="close-btn" onclick="closeNorma()">CERRAR REGLAMENTO</button>
+        <div class="norma-content">
+            <h3>ARTICULO 26o.</h3>
+            <p>La Universidad determinará cuáles asignaturas son habilitables.</p>
+
+            <h3>ARTICULO 27o.</h3>
+            <p>La calificación de habilitación es el resultado de las pruebas evaluatorias programadas para tal efecto únicamente.</p>
+
+            <h3>ARTICULO 30o.</h3>
+            <p>Para habilitar una asignatura se requiere:<br>
+            a. Que la asignatura sea habilitable y que el estudiante la haya matriculado en el período académico inmediatamente anterior.<br>
+            b. Que la calificación definitiva obtenida en la asignatura que se desea habilitar no sea inferior a dos punto cero (2.0).</p>
+
+            <h3>ARTICULO 32o.</h3>
+            <p>Para validar una asignatura se requiere:<br>
+            a. Que la asignatura sea validable a juicio de la Universidad.<br>
+            b. Estar matriculado en el período académico durante el cual se solicita la validación.<br>
+            c. No estar matriculado en la asignatura que se solicita validar, ni haberla reprobado.<br>
+            d. Cumplir con los requisitos para cursar la asignatura que se solicita validar.<br>
+            e. Cancelar los derechos correspondientes, equivalentes por cada asignatura al 4% del valor del recibo de pago de la matrícula financiera.</p>
+
+            <h3>ARTICULO 35o.</h3>
+            <p>La calificación de validación es el resultado de las pruebas evaluatorias programadas únicamente para este efecto.</p>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const progress = document.getElementById('progress');
+
+        function moveSlide(direction) {
+            slides[currentSlide].classList.remove('active');
+            
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= slides.length) currentSlide = slides.length - 1;
+
+            slides[currentSlide].classList.add('active');
+            
+            // Actualizar UI
+            const percentage = ((currentSlide + 1) / slides.length) * 100;
+            progress.style.width = percentage + '%';
+            
+            document.getElementById('btnPrev').style.opacity = currentSlide === 0 ? '0.3' : '1';
+            document.getElementById('btnNext').innerText = currentSlide === slides.length - 1 ? 'FINALIZAR' : 'SIGUIENTE';
+        }
+
+        function openNorma() { document.getElementById('norma-modal').style.display = 'block'; }
+        function closeNorma() { document.getElementById('norma-modal').style.display = 'none'; }
+
+        // Gestos Swipe para móviles
+        let touchstartX = 0;
+        let touchendX = 0;
+        
+        document.addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
+        document.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            if (touchendX < touchstartX - 50) moveSlide(1);
+            if (touchendX > touchstartX + 50) moveSlide(-1);
+        });
+    </script>
+</body>
+</html>
