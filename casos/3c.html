@@ -1,0 +1,990 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Caso Jurídico Interactivo: Juanito Alimaña</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --verde-oscuro: #006400;
+            --verde-hover: #008000;
+            --color-texto: #333333;
+            --color-fondo: #f8f8f8;
+            --color-borde: #dcdcdc;
+            --color-destacado: #2c3e50;
+            --color-boton: #4a6fa5;
+            --color-boton-hover: #3a5985;
+            --sombra-suave: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --sombra-fuerte: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vollkorn', serif;
+        }
+        
+        body {
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            min-height: 100vh;
+            padding: 20px 15px 100px;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 10px;
+            animation: slideDown 0.8s ease-out;
+        }
+        
+        .header h1 {
+            font-size: 1.9rem;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            font-weight: 900;
+            color: var(--color-destacado);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 500;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .case-title {
+            font-size: 1.6rem;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 2px solid var(--color-borde);
+            box-shadow: var(--sombra-suave);
+            animation: pulseBorder 3s infinite alternate;
+            position: relative;
+            text-align: center;
+        }
+        
+        .case-title a {
+            color: var(--color-texto);
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 8px;
+        }
+        
+        .green-char {
+            color: var(--verde-oscuro);
+            font-weight: 900;
+            transition: all 0.5s;
+        }
+        
+        .case-title a:hover .green-char {
+            color: var(--verde-hover);
+            transform: scale(1.2);
+        }
+        
+        .case-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 25px;
+            margin-bottom: 35px;
+            border: 2px solid var(--color-borde);
+            box-shadow: var(--sombra-fuerte);
+            animation: fadeInUp 1.2s ease-out;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dialog-text {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            text-align: justify;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(25px);
+            animation: textAppear 0.9s forwards;
+            animation-delay: 0.3s;
+            font-weight: 500;
+            padding: 15px;
+            border-left: 4px solid #aaa;
+            background: rgba(0,0,0,0.02);
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .dialog-text strong {
+            color: var(--color-destacado);
+            font-weight: 700;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            margin-bottom: 40px;
+            gap: 20px;
+        }
+        
+        .nav-btn {
+            background: var(--color-boton);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            flex: 1;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            background: var(--color-boton-hover);
+        }
+        
+        .nav-btn:active {
+            transform: translateY(2px);
+        }
+        
+        .nav-btn:disabled {
+            background: #ccc;
+            color: #777;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-btn.prev {
+            background: #7a7a7a;
+        }
+        
+        .nav-btn.prev:hover {
+            background: #6a6a6a;
+        }
+        
+        .normas-btn {
+            background: var(--color-destacado);
+            color: white;
+            border: none;
+            padding: 22px 35px;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: block;
+            margin: 40px auto;
+            width: 85%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s;
+            animation: pulseButton 2.5s infinite alternate;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .normas-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.7s;
+        }
+        
+        .normas-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        .normas-btn:hover::before {
+            left: 100%;
+        }
+        
+        .normas-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.5s;
+        }
+        
+        .normas-content {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--color-borde);
+            animation: modalAppear 0.7s;
+            position: relative;
+        }
+        
+        .normas-content h2 {
+            color: var(--color-destacado);
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid var(--color-borde);
+            padding-bottom: 15px;
+        }
+        
+        .normas-content p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            color: var(--color-texto);
+            font-weight: 500;
+        }
+        
+        .close-btn {
+            background: var(--color-destacado);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 0;
+            transition: all 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .close-btn:hover {
+            background: #1c2c3e;
+            transform: scale(1.05);
+        }
+        
+        /* Easter egg sutil */
+        .easter-egg {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: moveAround 30s infinite linear;
+            z-index: 3000;
+            transition: all 0.5s;
+            font-size: 0;
+            text-align: center;
+            padding: 5px;
+            border: 1px solid #222;
+            opacity: 0.3;
+            text-transform: uppercase;
+            backdrop-filter: blur(2px);
+        }
+        
+        .easter-egg:hover, .easter-egg:active {
+            transform: scale(1.3);
+            opacity: 0.9;
+            box-shadow: 0 0 15px rgba(50, 50, 50, 0.4);
+            font-size: 1rem;
+            font-weight: 900;
+            color: #888;
+            background: #050505;
+            border: 1px solid #333;
+        }
+        
+        /* Posicionamiento para móvil */
+        @media (max-width: 768px) {
+            .easter-egg {
+                width: 35px;
+                height: 35px;
+                font-size: 0;
+                opacity: 0.25;
+                animation: moveAroundMobile 35s infinite linear;
+                /* Posición inicial en móvil - esquina inferior derecha */
+                bottom: 80px !important;
+                right: 15px !important;
+                left: auto !important;
+                top: auto !important;
+            }
+            
+            .easter-egg:hover, .easter-egg:active {
+                transform: scale(1.4);
+                opacity: 0.8;
+                font-size: 0.9rem;
+            }
+        }
+        
+        .easter-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 4000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .easter-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 3px solid var(--color-destacado);
+            animation: modalAppear 0.8s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .easter-content h2 {
+            margin-bottom: 25px;
+            font-size: 2rem;
+            color: var(--color-destacado);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .easter-content p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: var(--color-texto);
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .easter-close-btn {
+            background: var(--color-destacado);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .easter-close-btn:hover {
+            background: #1c2c3e;
+            transform: scale(1.08);
+        }
+        
+        .progress {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 12px;
+        }
+        
+        .progress-step {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #ddd;
+            transition: all 0.5s;
+            border: 2px solid transparent;
+        }
+        
+        .progress-step.active {
+            background: var(--color-boton);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(74, 111, 165, 0.5);
+            border-color: var(--color-boton-hover);
+        }
+        
+        .final-question {
+            font-size: 1.6rem;
+            text-align: center;
+            margin-top: 30px;
+            color: var(--color-destacado);
+            font-weight: 900;
+            animation: pulseText 3s infinite alternate;
+            padding: 20px;
+            border: 3px solid var(--color-borde);
+            border-radius: 15px;
+            background: rgba(0,0,0,0.02);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 25px;
+            border-top: 2px solid var(--color-borde);
+            font-size: 1rem;
+            color: #777;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        
+        /* Animaciones */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes textAppear {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulseBorder {
+            0% {
+                border-color: var(--color-borde);
+            }
+            100% {
+                border-color: #aaa;
+            }
+        }
+        
+        @keyframes pulseButton {
+            0% {
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            }
+            100% {
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 20px rgba(44, 62, 80, 0.2);
+            }
+        }
+        
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: translateY(60px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        /* Animación sutil para el easter egg */
+        @keyframes moveAround {
+            0% {
+                transform: translate(0, 0);
+            }
+            20% {
+                transform: translate(calc(100vw - 80px), 10vh);
+            }
+            40% {
+                transform: translate(calc(100vw - 100px), calc(80vh - 80px));
+            }
+            60% {
+                transform: translate(30vw, calc(100vh - 100px));
+            }
+            80% {
+                transform: translate(10vw, 40vh);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+        
+        /* Animación controlada para móvil */
+        @keyframes moveAroundMobile {
+            0% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(calc(80vw - 40px), 0);
+            }
+            50% {
+                transform: translate(calc(60vw - 40px), calc(70vh - 40px));
+            }
+            75% {
+                transform: translate(10vw, calc(50vh - 40px));
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+        
+        @keyframes pulseText {
+            0% {
+                color: var(--color-destacado);
+                border-color: var(--color-borde);
+            }
+            100% {
+                color: #1a1a1a;
+                border-color: #aaa;
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .case-title {
+                font-size: 1.4rem;
+            }
+            
+            .dialog-text {
+                font-size: 1.1rem;
+            }
+            
+            .nav-btn {
+                padding: 16px 20px;
+                font-size: 1.1rem;
+            }
+            
+            .normas-btn {
+                width: 95%;
+                padding: 20px 25px;
+                font-size: 1.2rem;
+            }
+            
+            .final-question {
+                font-size: 1.4rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-btn {
+                width: 100%;
+            }
+            
+            .normas-content {
+                padding: 25px;
+            }
+            
+            .easter-content {
+                padding: 30px;
+            }
+            
+            /* Asegurar que el easter egg no tape contenido */
+            .easter-egg {
+                bottom: 70px !important;
+                right: 10px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-gavel"></i> CASO JURÍDICO INTERACTIVO</h1>
+            <p>Analiza el caso de Juanito Alimaña paso a paso. Inducción Derecho Universidad del Valle</p>
+            <div class="case-title">
+                <a href="https://www.univalle.edu.co" target="_blank" id="cristhian-link">Caso desarrollado por: Crist<span class="green-char">h</span>ian Moreno</a>
+            </div>
+        </div>
+        
+        <div class="case-content">
+            <div class="dialog-text" id="step-1">
+                <p>Situación inicial: Juanito Alimaña se encuentra confundido porque encontró en su calificación una nota desfavorable.</p>
+            </div>
+            <div class="dialog-text" id="step-2" style="display: none;">
+                <p>Detalles del caso: Resulta que la materia donde recibió tal calificación es la del Jefe de Unidad Académica, y 2 días hábiles después de la calificación presenta una reclamación formal ante el profesor.</p>
+            </div>
+            <div class="dialog-text" id="step-3" style="display: none;">
+                <p><strong>Acción del director:</strong> El director del programa asignó a dos profesores expertos en la materia que dictó, para que revisaran minuciosamente la calificación.</p>
+            </div>
+            <div class="dialog-text" id="step-4" style="display: none;">
+                <p><strong>Conclusión de los evaluadores:</strong> Los evaluadores del Jefe concluyeron que la nota debió ser más alta, y que Juanito Alimaña debía sacar 5.</p>
+            </div>
+            <div class="dialog-text" id="step-5" style="display: none;">
+                <p><strong>Solicitud de Alimaña:</strong> Juanito Alimaña no sabía esto. Pero al enterarse que quien iba a designar a los evaluadores era el Jefe, solicitó a la facultad que quién asignara esta evaluación sea la Decana de la facultad.</p>
+            </div>
+            <div class="dialog-text" id="step-6" style="display: none;">
+                <p><strong>Conclusión de la Decana:</strong> La Decana escogió a dos docentes, y consideraron que la nota antes asignada se ajustaba a los criterios de evaluación.</p>
+                <div class="final-question">¿Son los evaluadores del Jefe de Unidad Académica competentes, si Alimaña lo permite, de asignarle la nota que presentaron?</div>
+            </div>
+        </div>
+        
+        <div class="progress">
+            <div class="progress-step active" id="progress-1"></div>
+            <div class="progress-step" id="progress-2"></div>
+            <div class="progress-step" id="progress-3"></div>
+            <div class="progress-step" id="progress-4"></div>
+            <div class="progress-step" id="progress-5"></div>
+            <div class="progress-step" id="progress-6"></div>
+        </div>
+        
+        <div class="controls">
+            <button class="nav-btn prev" id="prev-btn" disabled>
+                <i class="fas fa-arrow-left"></i> Anterior
+            </button>
+            <button class="nav-btn next" id="next-btn">
+                Siguiente <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+        
+        <button class="normas-btn" id="normas-btn">
+            <i class="fas fa-book-law"></i> Ver Normas Relevantes
+        </button>
+        
+        <div class="footer">
+            <p><strong>Actividad de caso para estudiantes de derecho (15-21 años)</strong></p>
+            <p>Resolución en clase - Esta web es solo una hoja de caso interactiva</p>
+        </div>
+    </div>
+    
+    <!-- Modal de Normas -->
+    <div class="normas-modal" id="normas-modal">
+        <div class="normas-content">
+            <h2><i class="fas fa-scale-balanced"></i> Normas Relevantes</h2>
+            <p><strong>ARTICULO 65°.</strong> El estudiante presentará por escrito sus reclamaciones sobre la evaluación de una determinada asignatura, en primera instancia al profesor y luego, en su orden, al Jefe de la Unidad Académica y al Consejo de la Facultad que ofrece la asignatura.</p>
+            <p><strong>PARÁGRAFO:</strong> Estas reclamaciones deberán ser presentadas a la primera instancia, dentro de los diez (10) días hábiles siguientes al conocimiento de los resultados de las evaluaciones.</p>
+            <p><strong>ARTICULO 66°.</strong> Cuando un estudiante recurra al Jefe de la Unidad Académica responsable de la asignatura para solicitar la revisión de la calificación obtenida en una evaluación, aquel designará dos (2) nuevos calificadores quienes deberán utilizar los mismos criterios de evaluación aplicados a los demás estudiantes de la asignatura. Estos profesores tendrán diez (10) días hábiles para efectuar la revisión. Como calificación de la evaluación se asignará el promedio de las calificaciones de los segundos evaluadores.</p>
+            <p><strong>PARÁGRAFO 1.</strong> Si el resultado obtenido implica una modificación de la calificación, el Jefe de la Unidad Académica procederá a hacer los trámites correspondientes.</p>
+            <p><strong>PARÁGRAFO 2.</strong> En el caso de que el Jefe de la Unidad Académica sea el profesor responsable de una asignatura sobre la cual se presente reclamación por parte del estudiante, los evaluadores serán escogidos por el Decano de la Facultad respectiva, quien realizará los trámites a que haya lugar.</p>
+            <button class="close-btn" id="close-normas-btn">Cerrar Normas</button>
+        </div>
+    </div>
+    
+    <!-- Easter Egg (más discreto) -->
+    <div class="easter-egg" id="easter-egg">
+        ?
+    </div>
+    
+    <!-- Modal de Easter Egg -->
+    <div class="easter-modal" id="easter-modal">
+        <div class="easter-content" id="easter-content">
+            <h2 id="easter-title">¿Seguro de ver la respuesta?</h2>
+            <p id="easter-text">Esta acción revelaría la solución al caso...</p>
+            <button class="easter-close-btn" id="easter-close-btn">Continuar</button>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let currentStep = 1;
+        const totalSteps = 6;
+        let easterClicks = 0;
+        let easterActive = false;
+        const easterMessages = [
+            "¿Seguro de ver la respuesta?",
+            "¿Realmente seguro?",
+            "¿Seguirisimo?",
+            "¿Completamente seguro?",
+            "¿Absolutamente convencido?",
+            "¿Incluso después de esta advertencia?",
+            "¿No prefieres pensarlo un poco más?",
+            "¿Definitivamente quieres continuar?",
+            "¿Última oportunidad para desistir?"
+        ];
+        
+        // Elementos DOM
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const normasBtn = document.getElementById('normas-btn');
+        const normasModal = document.getElementById('normas-modal');
+        const closeNormasBtn = document.getElementById('close-normas-btn');
+        const easterEgg = document.getElementById('easter-egg');
+        const easterModal = document.getElementById('easter-modal');
+        const easterTitle = document.getElementById('easter-title');
+        const easterText = document.getElementById('easter-text');
+        const easterCloseBtn = document.getElementById('easter-close-btn');
+        const cristhianLink = document.getElementById('cristhian-link');
+        
+        // Posicionar el easter egg inicialmente en una esquina
+        function positionEasterEgg() {
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+                // En móvil, posición inicial en esquina inferior derecha
+                easterEgg.style.right = '15px';
+                easterEgg.style.bottom = '80px';
+                easterEgg.style.left = 'auto';
+                easterEgg.style.top = 'auto';
+            } else {
+                // En desktop, posición inicial aleatoria
+                easterEgg.style.right = 'auto';
+                easterEgg.style.bottom = 'auto';
+                easterEgg.style.left = `${Math.floor(Math.random() * (window.innerWidth - 50))}px`;
+                easterEgg.style.top = `${Math.floor(Math.random() * (window.innerHeight - 150))}px`;
+            }
+        }
+        
+        // Navegación entre pasos
+        function updateStepDisplay() {
+            // Ocultar todos los pasos
+            for (let i = 1; i <= totalSteps; i++) {
+                const stepElement = document.getElementById(`step-${i}`);
+                const progressElement = document.getElementById(`progress-${i}`);
+                
+                if (stepElement) {
+                    stepElement.style.display = i === currentStep ? 'block' : 'none';
+                }
+                
+                if (progressElement) {
+                    if (i === currentStep) {
+                        progressElement.classList.add('active');
+                    } else {
+                        progressElement.classList.remove('active');
+                    }
+                }
+            }
+            
+            // Actualizar estado de botones
+            prevBtn.disabled = currentStep === 1;
+            
+            if (currentStep === totalSteps) {
+                nextBtn.innerHTML = 'Reiniciar <i class="fas fa-redo"></i>';
+            } else {
+                nextBtn.innerHTML = 'Siguiente <i class="fas fa-arrow-right"></i>';
+            }
+            
+            // Animación para el texto actual
+            const currentStepElement = document.getElementById(`step-${currentStep}`);
+            if (currentStepElement) {
+                currentStepElement.style.animation = 'none';
+                setTimeout(() => {
+                    currentStepElement.style.animation = 'textAppear 0.9s forwards';
+                }, 10);
+            }
+        }
+        
+        // Event listeners para navegación
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepDisplay();
+            }
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateStepDisplay();
+            } else {
+                // Reiniciar al primer paso
+                currentStep = 1;
+                updateStepDisplay();
+            }
+        });
+        
+        // Funcionalidad del botón de normas
+        normasBtn.addEventListener('click', () => {
+            normasModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeNormasBtn.addEventListener('click', () => {
+            normasModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Cerrar modal al hacer clic fuera del contenido
+        normasModal.addEventListener('click', (e) => {
+            if (e.target === normasModal) {
+                normasModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Easter egg funcionalidad - más discreta
+        easterEgg.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (easterActive) return;
+            
+            easterActive = true;
+            easterEgg.style.opacity = '0.1';
+            
+            if (easterClicks < easterMessages.length) {
+                easterTitle.textContent = easterMessages[easterClicks];
+                easterText.textContent = `Esta es una pista escondida (${easterClicks + 1}/${easterMessages.length})`;
+                easterCloseBtn.textContent = easterClicks === easterMessages.length - 1 ? 'Ver Pista' : 'Continuar';
+            } else {
+                easterTitle.textContent = "Buen intento";
+                easterText.textContent = "Espera la respuesta más adelante en la clase. Esta es solo tu hoja de caso.";
+                easterCloseBtn.textContent = "Entendido";
+            }
+            
+            easterModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        
+        easterCloseBtn.addEventListener('click', () => {
+            easterModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            if (easterClicks < easterMessages.length) {
+                easterClicks++;
+                
+                // Reiniciar easter egg después de un tiempo
+                setTimeout(() => {
+                    easterActive = false;
+                    const newOpacity = Math.min(0.7, 0.3 + (easterClicks * 0.05));
+                    easterEgg.style.opacity = newOpacity;
+                    
+                    // Mover el easter egg a una posición aleatoria (pero no cerca de botones importantes)
+                    const isMobile = window.innerWidth <= 768;
+                    const maxX = window.innerWidth - 60;
+                    const maxY = window.innerHeight - 150; // Evitar área inferior donde están los botones
+                    
+                    if (isMobile) {
+                        // En móvil, mantener cerca de las esquinas
+                        easterEgg.style.left = `${Math.random() > 0.5 ? 10 : maxX - 50}px`;
+                        easterEgg.style.top = `${Math.random() > 0.5 ? 100 : maxY - 100}px`;
+                        easterEgg.style.right = 'auto';
+                        easterEgg.style.bottom = 'auto';
+                    } else {
+                        // En desktop, posición aleatoria
+                        const randomX = Math.floor(Math.random() * maxX);
+                        const randomY = Math.floor(Math.random() * maxY);
+                        easterEgg.style.left = `${randomX}px`;
+                        easterEgg.style.top = `${randomY}px`;
+                        easterEgg.style.right = 'auto';
+                        easterEgg.style.bottom = 'auto';
+                    }
+                    
+                }, 800);
+            } else {
+                // Reiniciar después del último mensaje
+                setTimeout(() => {
+                    easterClicks = 0;
+                    easterActive = false;
+                    easterEgg.style.opacity = '0.3';
+                    positionEasterEgg();
+                }, 1500);
+            }
+        });
+        
+        // Cerrar modal de easter egg al hacer clic fuera
+        easterModal.addEventListener('click', (e) => {
+            if (e.target === easterModal) {
+                easterModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Enlace de Cristhian Moreno
+        cristhianLink.addEventListener('click', (e) => {
+            // El enlace ya tiene target="_blank" en el HTML
+            // Podemos agregar un efecto visual adicional
+            e.currentTarget.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                e.currentTarget.style.transform = 'scale(1)';
+            }, 300);
+        });
+        
+        // Inicializar
+        updateStepDisplay();
+        positionEasterEgg();
+        
+        // Reposicionar el easter egg al redimensionar la ventana
+        window.addEventListener('resize', positionEasterEgg);
+        
+        // Efecto de escritura para el primer paso
+        const firstStepText = document.getElementById('step-1').querySelector('p');
+        const originalText = firstStepText.innerHTML;
+        firstStepText.innerHTML = '';
+        
+        let charIndex = 0;
+        function typeWriter() {
+            if (charIndex < originalText.length) {
+                firstStepText.innerHTML += originalText.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 40);
+            }
+        }
+        
+        // Iniciar efecto de escritura después de un breve retraso
+        setTimeout(typeWriter, 1200);
+        
+        // Asegurar que el modal de normas se vea completo
+        const normasContent = document.querySelector('.normas-content');
+        window.addEventListener('resize', function() {
+            if (normasModal.style.display === 'flex') {
+                normasContent.style.maxHeight = '85vh';
+            }
+        });
+    </script>
+</body>
+</html>

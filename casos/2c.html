@@ -1,0 +1,769 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Caso Jurídico Interactivo - Cristhian Moreno</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #1a472a;
+            --secondary-color: #2e5d3e;
+            --accent-color: #2a5934;
+            --text-color: #333333;
+            --light-color: #f8f9fa;
+            --border-color: #e0e0e0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Vollkorn', serif;
+            color: var(--text-color);
+            background-color: #f5f7f6;
+            line-height: 1.6;
+            max-width: 100%;
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 15px;
+            animation: fadeInDown 1s ease;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+        
+        .green-char {
+            color: #1e5631;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        /* Case Container */
+        .case-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+            animation: fadeInUp 1s ease 0.3s both;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .case-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+        
+        .case-text {
+            font-size: 1.05rem;
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+        
+        .animated-text {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: textReveal 0.8s ease forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.5s; }
+        .delay-2 { animation-delay: 1s; }
+        .delay-3 { animation-delay: 1.5s; }
+        .delay-4 { animation-delay: 2s; }
+        
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .nav-btn {
+            padding: 12px 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Vollkorn', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 8px rgba(26, 71, 42, 0.2);
+        }
+        
+        .nav-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+        
+        .nav-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* Norms Button */
+        .norms-btn-container {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .norms-btn {
+            padding: 14px 32px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Vollkorn', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(42, 89, 52, 0.3);
+        }
+        
+        .norms-btn:hover {
+            background-color: #347c44;
+            transform: translateY(-3px);
+        }
+        
+        /* Norms Modal */
+        .norms-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            max-width: 800px;
+            margin: 30px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.5s ease;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        
+        .close-modal {
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            line-height: 1;
+            padding: 0 8px;
+        }
+        
+        .norms-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            white-space: pre-line;
+        }
+        
+        .norms-text p {
+            margin-bottom: 15px;
+        }
+        
+        /* Easter Egg */
+        .easter-egg {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(10, 15, 10, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            transition: opacity 0.5s ease, background-color 0.3s ease;
+            animation: floatAround 30s linear infinite;
+            bottom: 20px;
+            right: 20px;
+        }
+        
+        .easter-egg span {
+            color: rgba(255, 255, 255, 0);
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .easter-egg:hover {
+            background-color: rgba(10, 15, 10, 0.5);
+        }
+        
+        .easter-egg:hover span {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Easter Egg Dialog */
+        .easter-dialog {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .dialog-content {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: scaleIn 0.5s ease;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dialog-text {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-weight: 600;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dialog-close {
+            padding: 10px 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Vollkorn', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes textReveal {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes floatAround {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(-10px, -15px);
+            }
+            50% {
+                transform: translate(5px, -25px);
+            }
+            75% {
+                transform: translate(-15px, -10px);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .case-container {
+                padding: 20px;
+            }
+            
+            .case-title {
+                font-size: 1.3rem;
+            }
+            
+            .nav-btn {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+            
+            .norms-btn {
+                padding: 12px 28px;
+                font-size: 1rem;
+            }
+            
+            .easter-egg {
+                width: 35px;
+                height: 35px;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-btn {
+                width: 100%;
+            }
+            
+            .case-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Caso Jurídico Interactivo</div>
+            <div class="subtitle">Para estudiantes de derecho (15-21 años)</div>
+        </header>
+        
+        <main>
+            <div class="case-container">
+                <h1 class="case-title">Caso: <a href="https://www.universidad-ejemplo.edu.co" target="_blank" class="green-char">Crist<span class="green-char">h</span>ian Moreno</a></h1>
+                
+                <div id="case-step-1" class="case-step">
+                    <p class="case-text animated-text">Juan David Rosero, Camila Gómez y Benito Díaz desarrollaron una actividad en clase de Teorías del Derecho el día 10 de marzo.</p>
+                    <p class="case-text animated-text delay-1">Cuando la clase estaba por finalizar el profesor señaló frente a toda la clase que la entrega del trabajo iba a vencer antes del inicio de la próxima clase.</p>
+                </div>
+                
+                <div id="case-step-2" class="case-step" style="display: none;">
+                    <p class="case-text animated-text">La clase de Teorías del Derecho en el horario está configurada para verse los martes a las 10:00am.</p>
+                    <p class="case-text animated-text delay-1">El día 17 de marzo, el profesor envió por correo que no podía asistir a la clase, y señaló que se iban a ver el 24 de marzo, y recordó por correo y en escrito que la entrega del trabajo era antes del inicio de la clase.</p>
+                </div>
+                
+                <div id="case-step-3" class="case-step" style="display: none;">
+                    <p class="case-text animated-text">Juan, Camila y Benito entregaron la actividad el día 19 de marzo a las 10:25 porque Benito Díaz estaba enfermo y solo hasta ese día pudo entregar el trabajo.</p>
+                </div>
+                
+                <div id="case-step-4" class="case-step" style="display: none;">
+                    <p class="case-text animated-text">El 24 de marzo, a las 10:26 el profesor inició la clase, y le señaló al grupo que tenían 0 en el trabajo y que iba a iniciar un proceso disciplinario por el trabajo, conforme al artículo 43 del acuerdo 009.</p>
+                </div>
+                
+                <div id="case-step-5" class="case-step" style="display: none;">
+                    <p class="case-text animated-text">¿El grupo de Juan, Camila y Benito pueden reclamar una eventual revisión de la nota calificada y la investigación disciplinaria?</p>
+                    <p class="case-text animated-text delay-1" style="font-style: italic; margin-top: 20px; color: var(--secondary-color);">Esta actividad no incluye respuesta - es solo la hoja de caso para resolver en clase.</p>
+                </div>
+                
+                <div class="navigation">
+                    <button id="prev-btn" class="nav-btn" disabled>Anterior</button>
+                    <button id="next-btn" class="nav-btn">Siguiente</button>
+                </div>
+                
+                <div class="norms-btn-container">
+                    <button id="norms-btn" class="norms-btn">Ver Normas Relevantes</button>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Actividad educativa para estudiantes de derecho. Caso desarrollado por <a href="https://www.universidad-ejemplo.edu.co" target="_blank" class="green-char">Crist<span class="green-char">h</span>ian Moreno</a>.</p>
+            <p style="margin-top: 8px; font-size: 0.85rem;">Utilice los botones de navegación para explorar el caso paso a paso.</p>
+        </footer>
+    </div>
+    
+    <!-- Easter Egg -->
+    <div id="easter-egg" class="easter-egg">
+        <span>?</span>
+    </div>
+    
+    <!-- Norms Modal -->
+    <div id="norms-modal" class="norms-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Normas Relevantes</h2>
+                <button id="close-modal" class="close-modal">&times;</button>
+            </div>
+            <div class="norms-text">
+                <p><strong>ARTICULO 43°.</strong> En el caso de las calificaciones numéricas se utilizará la siguiente escala:</p>
+                <p>a. Cero punto cero (0.0) para quien sin causa justificada no se presente a una evaluación o práctica, sea sorprendido en fraude o coopere con él, o no entregue los trabajos académicos exigidos dentro de las fechas establecidas.</p>
+                <p>b. Uno punto cero (1.0) a dos punto nueve (2.9) para la reprobación.</p>
+                <p>c. Tres punto cero (3.0) a cinco punto cero (5.0) para la aprobación.</p>
+                
+                <p><strong>PARAGRAFO 1.</strong> Para efectos de la determinación de las calificaciones numéricas, se utilizará un entero y un decimal, acogiéndose la regla común de aproximación, así:</p>
+                <p>En aquellos casos para los cuales el cómputo dé como resultado dos o más cifras decimales, se aproximará por defecto cuando el segundo decimal esté entre uno y cuatro y se aproximará por exceso cuando el segundo decimal sea igual o superior a cinco.</p>
+                
+                <p><strong>PARAGRAFO 2.</strong> En los casos de fraude, el profesor deberá presentar un informe al Comité del Programa, con copia a la Secretaría Académica a la que pertenece el estudiante, para que aquél, con base en el debido proceso, imponga las sanciones correspondientes. De presentarse reincidencia, el Secretario Académico informará al Consejo de la Facultad para que éste, con base en el debido proceso, aplique las sanciones que para estos casos contemplen las normas de la Universidad. Quien sea sorprendido en fraude o haya cooperado con él, pierde el derecho a presentar la evaluación opcional del examen correspondiente. El Comité de Programa, con base en el debido proceso, impondrá la amonestación verbal. El reporte del fraude se registrará en la hoja de vida del estudiante.</p>
+                
+                <p><strong>PARAGRAFO 3.</strong> Para efectos de la certificación final de las calificaciones, una vez se hayan reunido todos los requisitos académicos para optar por el grado, el promedio acumulado se calculará considerando sólo las calificaciones aprobatorias.</p>
+                
+                <p><strong>ARTICULO 108°.</strong> Los estudiantes que incurran en faltas disciplinarias serán objeto, de acuerdo con la naturaleza de la falta, de las siguientes acciones disciplinarias, sin perjuicio de la responsabilidad civil o penal que la falta pueda originar:</p>
+                <p>Por faltas leves:</p>
+                <p>a. Amonestación verbal</p>
+                <p>b. Amonestación escrita</p>
+                <p>Por faltas graves:</p>
+                <p>• Cancelación de la matrícula y no concesión de ésta por el término de uno o varios períodos académicos.</p>
+                <p>Por faltas gravísimas:</p>
+                <p>• Expulsión de la Universidad</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Easter Egg Dialog -->
+    <div id="easter-dialog" class="easter-dialog">
+        <div class="dialog-content">
+            <div class="dialog-text" id="dialog-text">¿Seguro de ver la respuesta?</div>
+            <button id="dialog-close" class="dialog-close">Continuar</button>
+        </div>
+    </div>
+    
+    <script>
+        // Variables globales
+        let currentStep = 1;
+        const totalSteps = 5;
+        let easterClickCount = 0;
+        const easterMessages = [
+            "¿Seguro de ver la respuesta?",
+            "¿Realmente seguro?",
+            "¿De verdad quieres continuar?",
+            "Piénsalo bien...",
+            "¿Estás absolutamente seguro?",
+            "Última oportunidad para reconsiderar...",
+            "¿Seguirisimo?",
+            "¿No te arrepentirás?",
+            "Buen intento, espera la respuesta más adelante en la clase"
+        ];
+        
+        // Inicialización de elementos
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const normsBtn = document.getElementById('norms-btn');
+        const normsModal = document.getElementById('norms-modal');
+        const closeModal = document.getElementById('close-modal');
+        const easterEgg = document.getElementById('easter-egg');
+        const easterDialog = document.getElementById('easter-dialog');
+        const dialogText = document.getElementById('dialog-text');
+        const dialogClose = document.getElementById('dialog-close');
+        
+        // Funciones de navegación
+        function updateNavigation() {
+            // Actualizar estado de botones
+            prevBtn.disabled = currentStep === 1;
+            nextBtn.disabled = currentStep === totalSteps;
+            
+            // Actualizar texto del botón siguiente
+            nextBtn.textContent = currentStep === totalSteps ? "Finalizado" : "Siguiente";
+            
+            // Ocultar todos los pasos
+            document.querySelectorAll('.case-step').forEach(step => {
+                step.style.display = 'none';
+            });
+            
+            // Mostrar paso actual
+            document.getElementById(`case-step-${currentStep}`).style.display = 'block';
+            
+            // Reiniciar animaciones de texto
+            setTimeout(() => {
+                document.querySelectorAll(`#case-step-${currentStep} .animated-text`).forEach((text, index) => {
+                    text.style.animation = 'none';
+                    setTimeout(() => {
+                        text.style.animation = `textReveal 0.8s ease ${index * 0.5}s forwards`;
+                    }, 10);
+                });
+            }, 10);
+        }
+        
+        // Event Listeners para navegación
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateNavigation();
+            }
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateNavigation();
+            }
+        });
+        
+        // Normas modal
+        normsBtn.addEventListener('click', () => {
+            normsModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeModal.addEventListener('click', () => {
+            normsModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Cerrar modal al hacer clic fuera del contenido
+        normsModal.addEventListener('click', (e) => {
+            if (e.target === normsModal) {
+                normsModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Easter Egg
+        easterEgg.addEventListener('click', () => {
+            easterClickCount++;
+            
+            // Mostrar mensaje según el conteo de clics
+            if (easterClickCount <= easterMessages.length) {
+                dialogText.textContent = easterMessages[easterClickCount - 1];
+                easterDialog.style.display = 'flex';
+                
+                // Aumentar opacidad del easter egg
+                const currentOpacity = 0.3 + (easterClickCount * 0.07);
+                easterEgg.style.backgroundColor = `rgba(10, 15, 10, ${Math.min(currentOpacity, 0.8)})`;
+            }
+            
+            // Ocultar easter egg temporalmente
+            easterEgg.style.opacity = '0';
+            
+            // Reposicionar aleatoriamente (pero manteniéndose en áreas usables)
+            setTimeout(() => {
+                const maxX = window.innerWidth - 60;
+                const maxY = window.innerHeight - 120; // Evitar áreas superiores con contenido
+                const minY = 80; // Evitar la barra superior
+                
+                const randomX = Math.max(20, Math.min(maxX, Math.random() * maxX));
+                const randomY = Math.max(minY, Math.min(maxY, Math.random() * maxY));
+                
+                // En móvil, mantener en esquina inferior derecha después de varios clics
+                if (window.innerWidth <= 768 && easterClickCount > 3) {
+                    easterEgg.style.bottom = '15px';
+                    easterEgg.style.right = '15px';
+                    easterEgg.style.left = 'auto';
+                    easterEgg.style.top = 'auto';
+                } else {
+                    easterEgg.style.left = `${randomX}px`;
+                    easterEgg.style.top = `${randomY}px`;
+                    easterEgg.style.bottom = 'auto';
+                    easterEgg.style.right = 'auto';
+                }
+                
+                easterEgg.style.opacity = '1';
+            }, 300);
+        });
+        
+        // Cerrar diálogo del easter egg
+        dialogClose.addEventListener('click', () => {
+            easterDialog.style.display = 'none';
+            
+            // Si es el último mensaje, ocultar el easter egg permanentemente
+            if (easterClickCount >= easterMessages.length) {
+                easterEgg.style.display = 'none';
+            }
+        });
+        
+        // Cerrar diálogo al hacer clic fuera
+        easterDialog.addEventListener('click', (e) => {
+            if (e.target === easterDialog) {
+                easterDialog.style.display = 'none';
+            }
+        });
+        
+        // Hacer que el easter egg se mueva periódicamente
+        let moveInterval;
+        
+        function startEasterEggMovement() {
+            if (moveInterval) clearInterval(moveInterval);
+            
+            moveInterval = setInterval(() => {
+                if (easterClickCount >= easterMessages.length) {
+                    clearInterval(moveInterval);
+                    return;
+                }
+                
+                // Solo mover si no está siendo interactuado recientemente
+                const currentOpacity = parseFloat(window.getComputedStyle(easterEgg).backgroundColor.match(/[\d.]+/g)[3]);
+                if (currentOpacity < 0.8) {
+                    const currentX = parseInt(window.getComputedStyle(easterEgg).left) || 
+                                    window.innerWidth - 60;
+                    const currentY = parseInt(window.getComputedStyle(easterEgg).top) || 
+                                    window.innerHeight - 120;
+                    
+                    const maxX = window.innerWidth - 60;
+                    const maxY = window.innerHeight - 120;
+                    const minY = 80;
+                    
+                    // Pequeños movimientos aleatorios
+                    const moveX = (Math.random() * 40) - 20;
+                    const moveY = (Math.random() * 30) - 15;
+                    
+                    const newX = Math.max(20, Math.min(maxX, currentX + moveX));
+                    const newY = Math.max(minY, Math.min(maxY, currentY + moveY));
+                    
+                    easterEgg.style.transition = 'left 30s linear, top 30s linear';
+                    easterEgg.style.left = `${newX}px`;
+                    easterEgg.style.top = `${newY}px`;
+                    
+                    // Restaurar transición después del movimiento
+                    setTimeout(() => {
+                        easterEgg.style.transition = 'opacity 0.5s ease, background-color 0.3s ease';
+                    }, 30000);
+                }
+            }, 31000); // Un poco más del tiempo de la animación CSS
+        }
+        
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            updateNavigation();
+            startEasterEggMovement();
+            
+            // Asegurar que el easter egg esté en la posición correcta en móvil
+            if (window.innerWidth <= 768) {
+                easterEgg.style.bottom = '15px';
+                easterEgg.style.right = '15px';
+                easterEgg.style.left = 'auto';
+                easterEgg.style.top = 'auto';
+            }
+            
+            // Manejar redimensionamiento de ventana
+            window.addEventListener('resize', () => {
+                if (window.innerWidth <= 768 && easterClickCount <= 3) {
+                    easterEgg.style.bottom = '15px';
+                    easterEgg.style.right = '15px';
+                    easterEgg.style.left = 'auto';
+                    easterEgg.style.top = 'auto';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

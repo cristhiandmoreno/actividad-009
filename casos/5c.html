@@ -1,0 +1,841 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Caso Jurídico Interactivo - Cristhian Moreno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a472a;
+            --secondary-color: #2e593c;
+            --accent-color: #0d2818;
+            --text-color: #333333;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --green-char: #1e5631;
+            --animation-speed: 0.5s;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Vollkorn', serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: slideDown 0.8s ease-out;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            line-height: 1.3;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .case-author {
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: rgba(26, 71, 42, 0.05);
+            display: inline-block;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        .case-author:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .green-char {
+            color: var(--green-char);
+            font-weight: 700;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .green-char:hover {
+            color: #2a7d46;
+            text-shadow: 0 0 5px rgba(42, 125, 70, 0.3);
+        }
+        
+        .case-container {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+            border-left: 6px solid var(--primary-color);
+        }
+        
+        .case-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .case-step {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        
+        .case-step.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .case-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 700;
+            border-bottom: 2px solid rgba(26, 71, 42, 0.1);
+            padding-bottom: 8px;
+        }
+        
+        .case-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        
+        .case-text p {
+            margin-bottom: 15px;
+        }
+        
+        .highlight {
+            background-color: rgba(26, 71, 42, 0.1);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .nav-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 50px;
+            font-family: 'Vollkorn', serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(26, 71, 42, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 140px;
+        }
+        
+        .nav-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(26, 71, 42, 0.4);
+        }
+        
+        .nav-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .nav-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .nav-btn.prev::before {
+            content: '← ';
+            font-weight: 700;
+            margin-right: 5px;
+        }
+        
+        .nav-btn.next::after {
+            content: ' →';
+            font-weight: 700;
+            margin-left: 5px;
+        }
+        
+        .rules-btn-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .rules-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 50px;
+            font-family: 'Vollkorn', serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 6px 15px rgba(26, 71, 42, 0.4);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .rules-btn:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(26, 71, 42, 0.5);
+        }
+        
+        .rules-btn:active {
+            transform: translateY(-2px);
+        }
+        
+        .rules-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s;
+        }
+        
+        .rules-btn:hover::after {
+            left: 100%;
+        }
+        
+        .rules-container {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 0.8s ease-out;
+            border-left: 6px solid var(--accent-color);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .rules-container.show {
+            display: block;
+        }
+        
+        .rules-title {
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .rule {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .rule:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .rule-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .rule-text {
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            margin-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .easter-egg {
+            position: fixed;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: rgba(13, 40, 24, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: opacity 0.5s, background-color 0.3s;
+            opacity: 0.3;
+            bottom: 20px;
+            right: 20px;
+            user-select: none;
+            animation: moveEasterEgg 30s infinite linear;
+        }
+        
+        .easter-egg:hover {
+            background-color: rgba(13, 40, 24, 0.5);
+        }
+        
+        .easter-egg .question-mark {
+            color: transparent;
+            font-weight: 900;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        
+        .easter-egg:hover .question-mark {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .easter-egg.active .question-mark {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .easter-egg-message {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            max-width: 250px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            display: none;
+            font-weight: 500;
+            animation: fadeInUp 0.3s ease-out;
+        }
+        
+        .easter-egg-message::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 20px;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid var(--accent-color);
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(26, 71, 42, 0.2);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(26, 71, 42, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(26, 71, 42, 0);
+            }
+        }
+        
+        @keyframes moveEasterEgg {
+            0% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(-10px, -15px);
+            }
+            50% {
+                transform: translate(5px, -25px);
+            }
+            75% {
+                transform: translate(-15px, -10px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 700px;
+                padding: 30px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .easter-egg {
+                width: 40px;
+                height: 40px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .case-container, .rules-container {
+                padding: 20px;
+            }
+            
+            .nav-btn {
+                padding: 12px 20px;
+                min-width: 120px;
+                font-size: 0.95rem;
+            }
+            
+            .rules-btn {
+                padding: 16px 25px;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Clases para animaciones de texto */
+        .animated-text {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.6s forwards;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+        
+        .shake {
+            animation: shake 0.5s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="animated-text">Caso Jurídico Interactivo</h1>
+            <p class="subtitle animated-text delay-1">Habilitación de Asignaturas</p>
+            <div class="case-author animated-text delay-2">
+                Caso preparado por: <span class="green-char" id="author-name">Crist<span class="green-char">h</span>ian Moreno</span>
+            </div>
+        </header>
+        
+        <main>
+            <div class="case-container">
+                <div class="case-step active" id="step1">
+                    <h2 class="case-title">Contexto del Caso</h2>
+                    <div class="case-text">
+                        <p class="animated-text">Andrés Cepeda cursa <span class="highlight">Derecho Constitucional</span>, una materia obligatoria del núcleo básico de su plan de estudios.</p>
+                        <p class="animated-text delay-1">La docente, quien además es la <span class="highlight">Decana de la Facultad</span>, le informa que la asignatura es habilitable y que requiere una nota mínima de <span class="highlight">2.5</span> para poder habilitar.</p>
+                    </div>
+                </div>
+                
+                <div class="case-step" id="step2">
+                    <h2 class="case-title">Conflicto Normativo</h2>
+                    <div class="case-text">
+                        <p class="animated-text">Al consultar la información oficial del sistema de matrículas y la oferta académica del programa, Andrés advierte que:</p>
+                        <p class="animated-text delay-1"><span class="highlight">Derecho Constitucional no se encuentra catalogada como asignatura habilitable</span> en los registros oficiales de la universidad.</p>
+                        <p class="animated-text delay-2">Además, su calificación definitiva fue de <span class="highlight">2.4</span>, estando a solo <span class="highlight">0.1 puntos</span> del 2.5 que le exige la Decana.</p>
+                    </div>
+                </div>
+                
+                <div class="case-step" id="step3">
+                    <h2 class="case-title">Pregunta Jurídica</h2>
+                    <div class="case-text">
+                        <p class="animated-text">Considerando la información proporcionada y las normas aplicables:</p>
+                        <p class="animated-text delay-1"><span class="highlight">¿Andrés Cepeda podrá habilitar la materia el siguiente semestre?</span></p>
+                        <p class="animated-text delay-2">Analice los requisitos formales y sustanciales, la jerarquía de las fuentes normativas, y los principios de seguridad jurídica aplicables al caso.</p>
+                        <p class="animated-text delay-3">Preparen su respuesta para la discusión en clase.</p>
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn prev" id="prevBtn" disabled>Anterior</button>
+                    <button class="nav-btn next" id="nextBtn">Siguiente</button>
+                </div>
+            </div>
+            
+            <div class="rules-btn-container">
+                <button class="rules-btn" id="rulesBtn">Ver Normas Relevantes</button>
+            </div>
+            
+            <div class="rules-container" id="rulesContainer">
+                <h3 class="rules-title">Normas Aplicables al Caso</h3>
+                <div class="rule">
+                    <div class="rule-title">ARTÍCULO 29</div>
+                    <div class="rule-text">
+                        El estudiante que haya aprobado una asignatura, podrá tomar la evaluación de habilitación que se ofrezca para esa asignatura, con el propósito de elevar su promedio de calificaciones. En ese caso, la nota final de la asignatura será la resultante del examen de habilitación, si esta es superior. Para el promedio semestral se tendrá en cuenta la mejor nota.
+                    </div>
+                </div>
+                <div class="rule">
+                    <div class="rule-title">ARTÍCULO 30</div>
+                    <div class="rule-text">
+                        Para habilitar una asignatura se requiere:<br>
+                        a. Que la asignatura sea habilitable y que el estudiante la haya matriculado en el período académico inmediatamente anterior.<br>
+                        b. Que la calificación definitiva obtenida en la asignatura que se desea habilitar no sea inferior a dos punto cero (2.0).
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Actividad para estudiantes de derecho - No incluye respuesta</p>
+            <p>El caso será resuelto y discutido en clase</p>
+        </footer>
+        
+        <!-- Easter Egg -->
+        <div class="easter-egg" id="easterEgg">
+            <div class="question-mark">?</div>
+        </div>
+        <div class="easter-egg-message" id="easterEggMessage"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variables para el control del caso
+            const steps = document.querySelectorAll('.case-step');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const rulesBtn = document.getElementById('rulesBtn');
+            const rulesContainer = document.getElementById('rulesContainer');
+            const authorName = document.getElementById('author-name');
+            const easterEgg = document.getElementById('easterEgg');
+            const easterEggMessage = document.getElementById('easterEggMessage');
+            
+            let currentStep = 0;
+            const totalSteps = steps.length;
+            
+            // Mensajes para el easter egg (9 mensajes)
+            const easterEggMessages = [
+                "¿Seguro de ver la respuesta?",
+                "¿Realmente seguro?",
+                "¿Seguirisimo?",
+                "¿De verdad quieres saber?",
+                "¿Estás completamente seguro?",
+                "¿No prefieres resolverlo por ti mismo?",
+                "Última oportunidad para volver atrás...",
+                "¿Definitivamente quieres continuar?",
+                "¡Buen intento! Espera la respuesta más adelante en la clase."
+            ];
+            
+            let easterEggClickCount = 0;
+            let easterEggOpacity = 0.3;
+            
+            // Función para actualizar los pasos del caso
+            function updateSteps() {
+                // Ocultar todos los pasos
+                steps.forEach(step => {
+                    step.classList.remove('active');
+                    
+                    // Resetear animaciones de texto
+                    const animatedTexts = step.querySelectorAll('.animated-text');
+                    animatedTexts.forEach(text => {
+                        text.style.animation = 'none';
+                        setTimeout(() => {
+                            text.style.animation = '';
+                        }, 10);
+                    });
+                });
+                
+                // Mostrar el paso actual
+                steps[currentStep].classList.add('active');
+                
+                // Actualizar estado de los botones
+                prevBtn.disabled = currentStep === 0;
+                nextBtn.disabled = currentStep === totalSteps - 1;
+                
+                // Actualizar texto del botón siguiente en el último paso
+                if (currentStep === totalSteps - 1) {
+                    nextBtn.textContent = 'Final';
+                } else {
+                    nextBtn.textContent = 'Siguiente';
+                }
+            }
+            
+            // Navegación anterior
+            prevBtn.addEventListener('click', function() {
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateSteps();
+                    // Agregar animación de shake
+                    this.classList.add('shake');
+                    setTimeout(() => this.classList.remove('shake'), 500);
+                }
+            });
+            
+            // Navegación siguiente
+            nextBtn.addEventListener('click', function() {
+                if (currentStep < totalSteps - 1) {
+                    currentStep++;
+                    updateSteps();
+                    // Agregar animación de shake
+                    this.classList.add('shake');
+                    setTimeout(() => this.classList.remove('shake'), 500);
+                }
+            });
+            
+            // Mostrar/ocultar normas
+            rulesBtn.addEventListener('click', function() {
+                rulesContainer.classList.toggle('show');
+                
+                // Cambiar texto del botón
+                if (rulesContainer.classList.contains('show')) {
+                    rulesBtn.textContent = 'Ocultar Normas';
+                    // Asegurar que las normas sean visibles
+                    setTimeout(() => {
+                        rulesContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 100);
+                } else {
+                    rulesBtn.textContent = 'Ver Normas Relevantes';
+                }
+                
+                // Agregar animación
+                this.classList.add('shake');
+                setTimeout(() => this.classList.remove('shake'), 500);
+            });
+            
+            // Enlace del autor
+            authorName.addEventListener('click', function() {
+                window.open('https://www.universidad-ejemplo.edu.co', '_blank');
+            });
+            
+            // Easter Egg - movimiento aleatorio
+            function moveEasterEgg() {
+                const maxX = window.innerWidth - 50;
+                const maxY = window.innerHeight - 50;
+                
+                // Posiciones aleatorias pero estratégicas para móvil
+                let newX, newY;
+                
+                // En móvil, preferir esquina inferior derecha
+                if (window.innerWidth <= 768) {
+                    newX = Math.random() * 100 + (window.innerWidth - 150);
+                    newY = Math.random() * 100 + (window.innerHeight - 150);
+                } else {
+                    newX = Math.random() * (maxX - 50) + 25;
+                    newY = Math.random() * (maxY - 50) + 25;
+                }
+                
+                // Asegurarse de que no cubra elementos importantes
+                newX = Math.min(newX, maxX);
+                newY = Math.min(newY, maxY);
+                
+                easterEgg.style.left = `${newX}px`;
+                easterEgg.style.top = `${newY}px`;
+            }
+            
+            // Easter Egg - interacción
+            easterEgg.addEventListener('click', function() {
+                // Mostrar mensaje correspondiente
+                easterEggMessage.textContent = easterEggMessages[easterEggClickCount];
+                easterEggMessage.style.display = 'block';
+                
+                // Aumentar opacidad con cada clic
+                easterEggOpacity = Math.min(easterEggOpacity + 0.1, 0.9);
+                easterEgg.style.opacity = easterEggOpacity;
+                easterEgg.style.backgroundColor = `rgba(13, 40, 24, ${easterEggOpacity})`;
+                
+                // Mostrar el signo de interrogación permanentemente después del primer clic
+                easterEgg.classList.add('active');
+                
+                // Ocultar mensaje después de 3 segundos
+                setTimeout(() => {
+                    easterEggMessage.style.display = 'none';
+                    
+                    // Mover a nueva posición
+                    moveEasterEgg();
+                }, 3000);
+                
+                // Incrementar contador y resetear si alcanzamos el último mensaje
+                easterEggClickCount++;
+                if (easterEggClickCount >= easterEggMessages.length) {
+                    easterEggClickCount = 0;
+                    // Resetear opacidad después del ciclo completo
+                    easterEggOpacity = 0.3;
+                    easterEgg.style.opacity = easterEggOpacity;
+                    easterEgg.style.backgroundColor = `rgba(13, 40, 24, ${easterEggOpacity})`;
+                    easterEgg.classList.remove('active');
+                }
+                
+                // Agregar animación de shake
+                this.classList.add('shake');
+                setTimeout(() => this.classList.remove('shake'), 500);
+            });
+            
+            // Easter Egg - mostrar signo de interrogación al pasar el cursor
+            easterEgg.addEventListener('mouseenter', function() {
+                const questionMark = this.querySelector('.question-mark');
+                questionMark.style.color = 'rgba(255, 255, 255, 0.8)';
+            });
+            
+            easterEgg.addEventListener('mouseleave', function() {
+                if (!easterEgg.classList.contains('active')) {
+                    const questionMark = this.querySelector('.question-mark');
+                    questionMark.style.color = 'transparent';
+                }
+            });
+            
+            // Mover el easter egg periódicamente
+            setInterval(moveEasterEgg, 30000);
+            
+            // Inicializar la página
+            updateSteps();
+            
+            // Asegurar que las animaciones de texto se activen
+            setTimeout(() => {
+                document.querySelectorAll('.animated-text').forEach((el, index) => {
+                    el.style.animationDelay = `${index * 0.2}s`;
+                });
+            }, 100);
+            
+            // Agregar interacción táctil para móviles
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            document.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                
+                if (touchEndX < touchStartX - swipeThreshold) {
+                    // Deslizar a la izquierda = siguiente
+                    if (currentStep < totalSteps - 1) {
+                        currentStep++;
+                        updateSteps();
+                    }
+                }
+                
+                if (touchEndX > touchStartX + swipeThreshold) {
+                    // Deslizar a la derecha = anterior
+                    if (currentStep > 0) {
+                        currentStep--;
+                        updateSteps();
+                    }
+                }
+            }
+            
+            // Efecto de aparición gradual al cargar
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.8s';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

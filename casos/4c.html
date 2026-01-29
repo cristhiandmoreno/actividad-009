@@ -1,0 +1,836 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Caso Jurídico Interactivo - Teorías del Derecho</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary-color: #1a472a;
+            --secondary-color: #2c5530;
+            --accent-color: #3a7d34;
+            --text-color: #333333;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --border-radius: 16px;
+            --animation-speed: 0.5s;
+        }
+
+        body {
+            font-family: 'Vollkorn', serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px 16px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Encabezado con animación */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1rem;
+            font-style: italic;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        /* Tarjeta principal con animación */
+        .case-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            animation: cardAppear 0.8s ease-out 0.2s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        /* Animación de entrada del texto */
+        .animated-text {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: textReveal 0.6s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.5s; }
+        .delay-2 { animation-delay: 0.8s; }
+        .delay-3 { animation-delay: 1.1s; }
+        .delay-4 { animation-delay: 1.4s; }
+
+        /* Tabla de notas con animación */
+        .grades-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #f9f9f9;
+            border-radius: 10px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: tableReveal 0.7s ease-out 1.7s forwards;
+        }
+
+        .grades-table th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .grades-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .grades-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .grades-table tr:hover {
+            background-color: #f0f0f0;
+            transition: background-color 0.3s;
+        }
+
+        /* Navegación */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 2s forwards;
+        }
+
+        .nav-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 50px;
+            font-family: 'Vollkorn', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
+        }
+
+        .nav-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(26, 71, 42, 0.4);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+
+        .nav-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .nav-btn.prev::before {
+            content: '←';
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        .nav-btn.next::after {
+            content: '→';
+            margin-left: 8px;
+            font-weight: bold;
+        }
+
+        /* Botón de normas */
+        .normas-btn-container {
+            text-align: center;
+            margin: 25px 0;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 2.2s forwards;
+        }
+
+        .normas-btn {
+            background: linear-gradient(135deg, var(--accent-color), #4a9e3e);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-family: 'Vollkorn', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 16px rgba(58, 125, 52, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        .normas-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(58, 125, 52, 0.5);
+        }
+
+        .normas-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Modal de normas */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 28px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 12px;
+        }
+
+        .modal-header h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #888;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0 8px;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .norma-text {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            white-space: pre-line;
+            margin-top: 15px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* Easter egg */
+        .easter-egg {
+            position: fixed;
+            width: 35px;
+            height: 35px;
+            background-color: rgba(10, 10, 10, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            transition: opacity 0.5s, background-color 0.3s;
+            opacity: 0.3;
+            bottom: 20px;
+            right: 20px;
+            animation: floatAround 30s infinite linear;
+        }
+
+        .easter-egg:hover {
+            background-color: rgba(20, 20, 20, 0.5);
+        }
+
+        .easter-egg .question-mark {
+            color: transparent;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: color 0.5s;
+        }
+
+        .easter-egg:hover .question-mark {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Diálogo del easter egg */
+        .easter-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 24px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+            max-width: 300px;
+            width: 90%;
+            text-align: center;
+            display: none;
+            animation: popIn 0.3s ease-out;
+        }
+
+        .easter-dialog p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .easter-dialog button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-family: 'Vollkorn', serif;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .easter-dialog button:hover {
+            background: var(--secondary-color);
+        }
+
+        /* Estilo para la h verde */
+        .green-char {
+            color: #1a472a;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-color: #3a7d34;
+            text-underline-offset: 2px;
+        }
+
+        /* Animaciones */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes textReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes tableReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatAround {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(-15px, -10px) rotate(5deg);
+            }
+            50% {
+                transform: translate(5px, -15px) rotate(-5deg);
+            }
+            75% {
+                transform: translate(-10px, 5px) rotate(3deg);
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .easter-egg {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .case-card {
+                padding: 32px;
+            }
+        }
+
+        /* Estado de carga */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(26, 71, 42, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pantalla de carga -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="container">
+        <header class="header">
+            <h1>Caso Jurídico Interactivo</h1>
+            <p>Teorías del Derecho - <a href="#" id="author-link">Crist<span class="green-char">h</span>ian Moreno</a></p>
+        </header>
+
+        <main>
+            <div class="case-card">
+                <h2 class="animated-text">El caso de Andrés Felipe Londoño</h2>
+                <p class="animated-text delay-1">En la asignatura <strong>Teorías del Derecho</strong>, el estudiante Andrés Felipe Londoño obtuvo las siguientes calificaciones parciales durante el semestre:</p>
+                
+                <table class="grades-table">
+                    <thead>
+                        <tr>
+                            <th>Actividad</th>
+                            <th>Porcentaje</th>
+                            <th>Nota obtenida</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Parcial I</td>
+                            <td>30%</td>
+                            <td>2.94</td>
+                        </tr>
+                        <tr>
+                            <td>Parcial II</td>
+                            <td>30%</td>
+                            <td>3.04</td>
+                        </tr>
+                        <tr>
+                            <td>Trabajo final</td>
+                            <td>40%</td>
+                            <td>2.99</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div id="step-1" class="case-step">
+                    <p class="animated-text delay-2">El profesor informa a Andrés que su promedio real antes del redondeo es <strong>2.995</strong>, y que, aplicando la regla del redondeo, su nota final queda en <strong>3.0</strong>, por lo cual aprueba la asignatura.</p>
+                </div>
+
+                <div id="step-2" class="case-step" style="display: none;">
+                    <p class="animated-text">Sin embargo, el papá de Andrés cree que en realidad no debería aprobar, porque si se redondearan cada una de las notas parciales, el promedio sería inferior a 3.0, y que aprobarlo vulnera el reglamento académico.</p>
+                </div>
+
+                <div id="step-3" class="case-step" style="display: none;">
+                    <p class="animated-text">Andrés cree perder la materia, pese a que el sistema ya le muestra la asignatura como aprobada.</p>
+                    <p class="animated-text delay-1" style="margin-top: 15px;"><strong>¿Andrés Felipe Londoño aprueba o reprueba la asignatura de Derecho Constitucional conforme al Artículo 43° del Acuerdo 009?</strong></p>
+                </div>
+
+                <div class="navigation">
+                    <button class="nav-btn prev" id="prev-btn" disabled>Anterior</button>
+                    <button class="nav-btn next" id="next-btn">Siguiente</button>
+                </div>
+
+                <div class="normas-btn-container">
+                    <button class="normas-btn" id="normas-btn">Ver Normas Relevantes</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para normas -->
+    <div class="modal" id="normas-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Artículo 43° del Acuerdo 009</h2>
+                <button class="close-btn" id="close-modal">&times;</button>
+            </div>
+            <div class="norma-text" id="norma-text">
+                ARTICULO 43°. En el caso de las calificaciones numéricas se utilizará la siguiente escala:
+                a. Cero punto cero (0.0) para quien sin causa justificada no se presente a una evaluación o práctica, sea sorprendido en fraude o coopere con él, o no entregue los trabajos académicos exigidos dentro de las fechas establecidas.
+                b. Uno punto cero (1.0) a dos punto nueve (2.9) para la reprobación.
+                c. Tres punto cero (3.0) a cinco punto cero (5.0) para la aprobación.
+
+                PARAGRAFO 1. Para efectos de la determinación de las calificaciones numéricas, se utilizará un entero y un decimal, acogiéndose la regla común de aproximación, así:
+                En aquellos casos para los cuales el cómputo dé como resultado dos o más cifras decimales, se aproximará por defecto cuando el segundo decimal esté entre uno y cuatro y se aproximará por exceso cuando el segundo decimal sea igual o superior a cinco.
+
+                PARAGRAFO 2. En los casos de fraude, el profesor deberá presentar un informe al Comité del Programa, con copia a la Secretaría Académica a la que pertenece el estudiante, para que aquél, con base en el debido proceso, imponga las sanciones correspondientes. De presentarse reincidencia, el Secretario Académico informará al Consejo de la Facultad para que éste, con base en el debido proceso, aplique las sanciones que para estos casos contemplen las normas de la Universidad. Quien sea sorprendido en fraude o haya cooperado con él, pierde el derecho a presentar la evaluación opcional del examen correspondiente. El Comité de Programa, con base en el debido proceso, impondrá la amonestación verbal. El reporte del fraude se registrará en la hoja de vida del estudiante.
+
+                PARAGRAFO 3. Para efectos de la certificación final de las calificaciones, una vez se hayan reunido todos los requisitos académicos para optar por el grado, el promedio acumulado se calculará considerando sólo las calificaciones aprobatorias.
+            </div>
+        </div>
+    </div>
+
+    <!-- Easter egg -->
+    <div class="easter-egg" id="easter-egg">
+        <span class="question-mark">?</span>
+    </div>
+
+    <!-- Diálogo del easter egg -->
+    <div class="easter-dialog" id="easter-dialog">
+        <p id="easter-message">¿Seguro de ver la respuesta?</p>
+        <button id="easter-confirm">Continuar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simular carga
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 800);
+
+            // Variables para navegación del caso
+            const caseSteps = document.querySelectorAll('.case-step');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            let currentStep = 0;
+            const totalSteps = caseSteps.length;
+
+            // Variables para el easter egg
+            const easterEgg = document.getElementById('easter-egg');
+            const easterDialog = document.getElementById('easter-dialog');
+            const easterMessage = document.getElementById('easter-message');
+            const easterConfirm = document.getElementById('easter-confirm');
+            let easterClickCount = 0;
+            const easterMessages = [
+                "¿Seguro de ver la respuesta?",
+                "¿Realmente seguro?",
+                "¿Seguirisimo?",
+                "¿Estás completamente convencido?",
+                "¿No quieres pensarlo mejor?",
+                "¿No prefieres resolverlo tú mismo?",
+                "Última oportunidad para reconsiderar...",
+                "¿De verdad quieres saber la respuesta?",
+                "¿Insistes en conocer la solución?"
+            ];
+            const finalMessage = "Buen intento, espera la respuesta más adelante en la clase";
+            
+            // Variables para el modal de normas
+            const normasBtn = document.getElementById('normas-btn');
+            const normasModal = document.getElementById('normas-modal');
+            const closeModal = document.getElementById('close-modal');
+            
+            // Enlace del autor
+            const authorLink = document.getElementById('author-link');
+            
+            // Funciones de navegación del caso
+            function updateNavigation() {
+                // Mostrar/ocultar pasos
+                caseSteps.forEach((step, index) => {
+                    if (index === currentStep) {
+                        step.style.display = 'block';
+                        
+                        // Animar contenido del paso actual
+                        const animatedTexts = step.querySelectorAll('.animated-text');
+                        animatedTexts.forEach((text, i) => {
+                            text.style.animationDelay = `${i * 0.3}s`;
+                            text.classList.remove('animated-text');
+                            void text.offsetWidth; // Trigger reflow
+                            text.classList.add('animated-text');
+                        });
+                    } else {
+                        step.style.display = 'none';
+                    }
+                });
+                
+                // Actualizar estado de botones
+                prevBtn.disabled = currentStep === 0;
+                nextBtn.disabled = currentStep === totalSteps - 1;
+                
+                // Cambiar texto del botón siguiente en el último paso
+                if (currentStep === totalSteps - 1) {
+                    nextBtn.textContent = 'Reiniciar';
+                } else {
+                    nextBtn.textContent = 'Siguiente';
+                }
+            }
+            
+            // Event listeners para navegación
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateNavigation();
+                }
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                if (currentStep < totalSteps - 1) {
+                    currentStep++;
+                    updateNavigation();
+                } else {
+                    // Reiniciar al primer paso
+                    currentStep = 0;
+                    updateNavigation();
+                }
+            });
+            
+            // Event listener para el botón de normas
+            normasBtn.addEventListener('click', () => {
+                normasModal.style.display = 'flex';
+                // Asegurar que el contenido sea visible
+                setTimeout(() => {
+                    document.querySelector('.norma-text').style.display = 'block';
+                }, 100);
+            });
+            
+            // Cerrar modal de normas
+            closeModal.addEventListener('click', () => {
+                normasModal.style.display = 'none';
+            });
+            
+            // Cerrar modal al hacer clic fuera
+            normasModal.addEventListener('click', (e) => {
+                if (e.target === normasModal) {
+                    normasModal.style.display = 'none';
+                }
+            });
+            
+            // Enlace del autor - redirigir a web institucional
+            authorLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.open('https://www.universidad.edu.co', '_blank');
+            });
+            
+            // Funcionalidad del easter egg
+            easterEgg.addEventListener('click', () => {
+                // Incrementar contador de clics
+                easterClickCount++;
+                
+                // Determinar mensaje a mostrar
+                if (easterClickCount <= easterMessages.length) {
+                    easterMessage.textContent = easterMessages[easterClickCount - 1];
+                } else {
+                    easterMessage.textContent = finalMessage;
+                    // Reiniciar contador después de mostrar el mensaje final
+                    setTimeout(() => {
+                        easterClickCount = 0;
+                    }, 3000);
+                }
+                
+                // Mostrar diálogo
+                easterDialog.style.display = 'block';
+                
+                // Ocultar easter egg temporalmente
+                easterEgg.style.opacity = '0';
+                setTimeout(() => {
+                    // Mover a una posición aleatoria (pero usable en móvil)
+                    const screenWidth = window.innerWidth;
+                    const screenHeight = window.innerHeight;
+                    
+                    // Posiciones aleatorias pero dentro de límites
+                    const maxX = screenWidth - 50;
+                    const maxY = screenHeight - 50;
+                    const minX = 20;
+                    const minY = 20;
+                    
+                    const randomX = Math.floor(Math.random() * (maxX - minX) + minX);
+                    const randomY = Math.floor(Math.random() * (maxY - minY) + minY);
+                    
+                    // Aumentar opacidad gradualmente
+                    const newOpacity = Math.min(0.3 + (easterClickCount * 0.08), 0.9);
+                    
+                    // Aplicar nueva posición y opacidad
+                    easterEgg.style.left = `${randomX}px`;
+                    easterEgg.style.top = `${randomY}px`;
+                    easterEgg.style.opacity = newOpacity.toString();
+                    
+                    // Revelar el signo de interrogación después del primer clic
+                    if (easterClickCount === 1) {
+                        easterEgg.querySelector('.question-mark').style.color = 'rgba(255, 255, 255, 0.9)';
+                    }
+                }, 500);
+            });
+            
+            // Cerrar diálogo del easter egg
+            easterConfirm.addEventListener('click', () => {
+                easterDialog.style.display = 'none';
+            });
+            
+            // Cerrar diálogo al hacer clic fuera
+            easterDialog.addEventListener('click', (e) => {
+                if (e.target === easterDialog) {
+                    easterDialog.style.display = 'none';
+                }
+            });
+            
+            // Inicializar navegación
+            updateNavigation();
+            
+            // Animación de movimiento aleatorio para el easter egg
+            function moveEasterEggRandomly() {
+                if (easterDialog.style.display !== 'block') {
+                    // Generar movimiento aleatorio suave
+                    const currentLeft = parseInt(window.getComputedStyle(easterEgg).left) || 20;
+                    const currentTop = parseInt(window.getComputedStyle(easterEgg).top) || 20;
+                    
+                    const screenWidth = window.innerWidth;
+                    const screenHeight = window.innerHeight;
+                    
+                    // Calcular nueva posición (dentro de límites)
+                    const maxMove = 30;
+                    const newLeft = Math.max(20, Math.min(screenWidth - 50, currentLeft + (Math.random() * maxMove * 2 - maxMove)));
+                    const newTop = Math.max(20, Math.min(screenHeight - 50, currentTop + (Math.random() * maxMove * 2 - maxMove)));
+                    
+                    // Aplicar nueva posición con transición suave
+                    easterEgg.style.transition = 'left 15s linear, top 15s linear';
+                    easterEgg.style.left = `${newLeft}px`;
+                    easterEgg.style.top = `${newTop}px`;
+                }
+                
+                // Programar próximo movimiento
+                setTimeout(moveEasterEggRandomly, 15000);
+            }
+            
+            // Iniciar movimiento aleatorio
+            setTimeout(moveEasterEggRandomly, 1000);
+            
+            // Asegurar que todo el contenido sea visible al hacer scroll
+            window.addEventListener('scroll', function() {
+                const animatedElements = document.querySelectorAll('.animated-text');
+                animatedElements.forEach(el => {
+                    const position = el.getBoundingClientRect();
+                    if (position.top < window.innerHeight && position.bottom >= 0) {
+                        el.style.animationPlayState = 'running';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
